@@ -14,7 +14,7 @@ You must include [SHA256.js](http://pajhome.org.uk/crypt/md5/sha256.html)
 
 ### Configuration
 
-Currently hard coded in the .js file.
+Currently hard coded in the ng-tourcms.js file.
 
 ```js
 var apiKey = 'API_KEY_HERE';
