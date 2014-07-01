@@ -4,9 +4,9 @@
 
     var baseUrl = 'https://api.tourcms.com';
 
-    var apiKey = 'API_KEY_HERE';
+    var apiKey = '0df0db4dc340';
     var marketplaceId = 0;
-    var channelId = 0;
+    var channelId = 3930;
 
     var makeRequest = function(a) {
       // Sensible defaults
@@ -43,6 +43,15 @@
                   'x-tourcms-date': outboundTime,
                   'Authorization': 'TourCMS ' + a.channelId + ':' + marketplaceId + ':' + signature,
                   'Content-type': 'text/xml;charset="utf-8"'
+                },
+                transformResponse: function(data) {
+                  if(typeof X2JS !== 'undefined') {
+                    var x2js = new X2JS();
+                    var json = x2js.xml_str2json( data );
+                    return json;
+                  } else {
+                    return data;
+                  }
                 }
       });
     };

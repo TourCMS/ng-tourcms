@@ -8,7 +8,9 @@ Early code, configuration is hard coded in the script file, not many API methods
 
 ## Dependencies
 
-You must include [SHA256.js](http://pajhome.org.uk/crypt/md5/sha256.html)
+Requires [SHA256.js](http://pajhome.org.uk/crypt/md5/sha256.html)
+
+Optionally, add [X2JS](http://code.google.com/p/x2js/) to receive JSON back rather than the default XML
 
 ## Usage
 
