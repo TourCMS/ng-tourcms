@@ -4,9 +4,9 @@
 
     var baseUrl = 'https://api.tourcms.com';
 
-    var apiKey = '0df0db4dc340';
+    var apiKey = '';
     var marketplaceId = 0;
-    var channelId = 3930;
+    var channelId = 0;
 
     var makeRequest = function(a) {
       // Sensible defaults
