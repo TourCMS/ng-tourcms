@@ -60,6 +60,20 @@
       return Math.floor(new Date().getTime() / 1000);
     }
 
+    var rawurlencode = function(str) {
+    //From http://phpjs.org/functions/rawurlencode/
+    str = (str + '')
+      .toString();
+
+      return encodeURIComponent(str)
+        .replace(/!/g, '%21')
+        .replace(/'/g, '%27')
+        .replace(/\(/g, '%28')
+        .
+      replace(/\)/g, '%29')
+        .replace(/\*/g, '%2A');
+    }
+
     // Return our singleton
     return {
         apiRateLimitStatus: function(a) {
