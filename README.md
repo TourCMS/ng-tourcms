@@ -29,7 +29,7 @@ var channelId = 0;
 #### [API Rate Limit Status](http://www.tourcms.com/support/api/mp/rate_limit_status.php)
 Check the current API rate limit status.
 ```js
-tourcmsApiService.apiRateLimitStatus({channelId:3930})
+tourcmsApiService.apiRateLimitStatus({channelId: 3930})
     .success(function(data, status) {
       console.log('Success');
       console.log(data);
@@ -44,14 +44,52 @@ tourcmsApiService.apiRateLimitStatus({channelId:3930})
 Search for tours.
 
 If a Channel ID is not provided, the function will use the channel Id
- configured on the service (see above). Query string (qs) can be a string or
- object with key value pairs.
+ configured on the service (see above).
 ```js
 tourcmsApiService.searchTours({
-      channelId:3930,
+      channelId: 3930,
       qs: {
         k: 'rafting',
         order: 'price_down'
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
+#### [Show Tour](http://www.tourcms.com/support/api/mp/tour_show.php)
+Show details of a specific tour tour.
+
+If a Channel ID is not provided, the function will use the channel Id
+ configured on the service (see above).
+```js
+tourcmsApiService.showTour({
+      channelId: 3930,
+      tourId: 1
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+Also supports passing of the various query string parameters
+```js
+tourcmsApiService.showTour({
+      channelId: 3930,
+      tourId: 1,
+      qs: {
+        show_options: 1,
+        show_offers: 1
       }
     })
     .success(function(data, status) {
