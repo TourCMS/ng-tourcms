@@ -39,3 +39,27 @@ tourcmsApiService.apiRateLimitStatus({channelId:3930})
       console.log(status);
     });
 ```
+
+#### [Search Tours](http://www.tourcms.com/support/api/mp/tour_search.php)
+Search for tours.
+
+If a channel ID is not provided, will use the channel Id
+ configured on the service (see above). Query string (qs) can be a string or
+ object with key value pairs.
+```js
+tourcmsApiService.searchTours({
+      channelId:3930,
+      qs: {
+        k: 'rafting',
+        order: 'price_down'
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
