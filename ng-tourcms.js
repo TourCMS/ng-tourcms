@@ -129,6 +129,17 @@
                                 a.path = '/c/channel/show.xml';
                                 return makeRequest(a);
         },
+        channelPerformance: function(a) {
+
+                                if(typeof a === 'undefined')
+                                  a = {};
+
+                                if(typeof a.channelId === 'undefined')
+                                  a.channelId = channelId;
+
+                                a.path = '/p/channels/performance.xml';
+                                return makeRequest(a);
+        },
         // Tours
         searchTours: function(a) {
 

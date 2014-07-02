@@ -73,6 +73,23 @@ tourcmsApiService.showChannel({channelId: 3930})
     });
 ```
 
+#### [Channel Performance](http://www.tourcms.com/support/api/mp/channels_performance.php)
+List top 50 channels by number of unique visitor clicks (or check performance for a specific channel).
+
+Supply a Channel ID to just return a specific Channel.
+
+```js
+tourcmsApiService.ChannelPerformance()
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
 ### Tour (Product) APIs
 
 #### [Search Tours](http://www.tourcms.com/support/api/mp/tour_search.php)
