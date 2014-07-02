@@ -43,7 +43,7 @@ tourcmsApiService.apiRateLimitStatus({channelId:3930})
 #### [Search Tours](http://www.tourcms.com/support/api/mp/tour_search.php)
 Search for tours.
 
-If a channel ID is not provided, will use the channel Id
+If a Channel ID is not provided, the function will use the channel Id
  configured on the service (see above). Query string (qs) can be a string or
  object with key value pairs.
 ```js
