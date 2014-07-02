@@ -96,6 +96,11 @@
     // Return our singleton
     return {
         apiRateLimitStatus: function(a) {
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
                                 a.path = '/api/rate_limit_status.xml';
                                 return makeRequest(a);
         },
