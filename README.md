@@ -56,6 +56,23 @@ tourcmsApiService.listChannels()
     });
 ```
 
+#### [Show Channel](http://www.tourcms.com/support/api/mp/channel_show.php)
+Show details on a specific channel.
+
+If a Channel ID is not provided, the function will use the channel Id
+ configured on the service (see above).
+```js
+tourcmsApiService.showChannel({channelId: 3930})
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
 ### Tour (Product) APIs
 
 #### [Search Tours](http://www.tourcms.com/support/api/mp/tour_search.php)

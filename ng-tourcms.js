@@ -118,6 +118,17 @@
                                 a.path = '/p/channels/list.xml';
                                 return makeRequest(a);
         },
+        showChannel: function(a) {
+
+                                if(typeof a === 'undefined')
+                                  a = {};
+
+                                if(typeof a.channelId === 'undefined')
+                                  a.channelId = channelId;
+
+                                a.path = '/c/channel/show.xml';
+                                return makeRequest(a);
+        },
         // Tours
         searchTours: function(a) {
 
