@@ -24,7 +24,7 @@ var channelId = 0;
 
 ## API methods
 
-### General API / Housekeeping
+### General API / Housekeeping APIs
 
 #### [API Rate Limit Status](http://www.tourcms.com/support/api/mp/rate_limit_status.php)
 Check the current API rate limit status.
