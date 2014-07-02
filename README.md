@@ -31,11 +31,11 @@ Check the current API rate limit status.
 ```js
 tourcmsApiService.apiRateLimitStatus({channelId:3930})
     .success(function(data, status) {
-      console.log(status);
+      console.log('Success');
       console.log(data);
     })
     .error(function(data, status) {
-      console.log(status);
       console.log(data || "Request failed");
+      console.log(status);
     });
 ```
