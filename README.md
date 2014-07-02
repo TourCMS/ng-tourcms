@@ -173,3 +173,42 @@ tourcmsApiService.showTour({
       console.log(status);
     });
 ```
+
+#### [Show Tour Dates and Deals](http://www.tourcms.com/support/api/mp/tour_datesdeals_show.php)
+List the dates available for a specific tour.
+
+If a Channel ID is not provided, the function will use the channel Id
+ configured on the service (see above).
+```js
+tourcmsApiService.showTourDatesDeals({
+      channelId: 3930,
+      tourId: 1
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+Also supports passing of the various query string parameters
+```js
+tourcmsApiService.showTourDatesDeals({
+      channelId: 3930,
+      tourId: 1,
+      qs: {
+        has_offer: 1,
+        distinct_start_dates: 1
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
