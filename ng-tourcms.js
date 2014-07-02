@@ -83,15 +83,47 @@
         .replace(/\*/g, '%2A');
     }
 
+    var toQueryString = function(obj) {
+    var parts = [];
+    for (var i in obj) {
+        if (obj.hasOwnProperty(i)) {
+            parts.push(encodeURIComponent(i) + "=" + encodeURIComponent(obj[i]));
+        }
+    }
+        return parts.join("&");
+    }
+
     // Return our singleton
     return {
         apiRateLimitStatus: function(a) {
-                                // Add in the API path
                                 a.path = '/api/rate_limit_status.xml';
-
-                                // Call API
                                 return makeRequest(a);
-                              }
+        },
+        searchTours: function(a) {
+
+                              // Convert/set search params
+                                // If undefined
+                            		if(typeof a.qs === "undefined") {
+                            			a.qs = "";
+                                // If array of key value pairs
+                                } else if(typeof a.qs === 'object') {
+                                  a.qs = toQueryString(a.qs);
+                                }
+                                // Otherwise leave alone (already a query string)
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                            		if(typeof a.channelId === "undefined")
+                            			a.channelId = channelId;
+
+                              // Set API path
+                            		if(a.channelId==0)
+                            			a.path = '/p/tours/search.xml?' + a.qs;
+                            		else
+                            			a.path = '/c/tours/search.xml?' + a.qs;
+
+                                return makeRequest(a);
+        }
     };
 
 });
