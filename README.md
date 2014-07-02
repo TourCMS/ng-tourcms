@@ -59,7 +59,7 @@ tourcmsApiService.listChannels()
 #### [Show Channel](http://www.tourcms.com/support/api/mp/channel_show.php)
 Show details on a specific channel.
 
-If a Channel ID is not provided, the function will use the channel Id
+If a Channel ID is not provided, the function will use the Channel ID
  configured on the service (see above).
 ```js
 tourcmsApiService.showChannel({channelId: 3930})
@@ -78,7 +78,7 @@ tourcmsApiService.showChannel({channelId: 3930})
 #### [Search Tours](http://www.tourcms.com/support/api/mp/tour_search.php)
 Search for tours.
 
-If a Channel ID is not provided, the function will use the channel Id
+If a Channel ID is not provided, the function will use the Channel ID
  configured on the service (see above).
 ```js
 tourcmsApiService.searchTours({
@@ -101,7 +101,7 @@ tourcmsApiService.searchTours({
 #### [List Tours](http://www.tourcms.com/support/api/mp/tours_list.php)
 List tours.
 
-If a Channel ID is not provided, the function will use the channel Id
+If a Channel ID is not provided, the function will use the Channel ID
  configured on the service (see above).
 ```js
 tourcmsApiService.listTours({
@@ -138,7 +138,7 @@ tourcmsApiService.listTours({
 #### [Show Tour](http://www.tourcms.com/support/api/mp/tour_show.php)
 Show details of a specific tour tour.
 
-If a Channel ID is not provided, the function will use the channel Id
+If a Channel ID is not provided, the function will use the Channel ID
  configured on the service (see above).
 ```js
 tourcmsApiService.showTour({
@@ -177,7 +177,7 @@ tourcmsApiService.showTour({
 #### [Show Tour Dates and Deals](http://www.tourcms.com/support/api/mp/tour_datesdeals_show.php)
 List the dates available for a specific tour.
 
-If a Channel ID is not provided, the function will use the channel Id
+If a Channel ID is not provided, the function will use the Channel ID
  configured on the service (see above).
 ```js
 tourcmsApiService.showTourDatesDeals({
