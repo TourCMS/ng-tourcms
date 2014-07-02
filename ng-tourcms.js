@@ -97,6 +97,10 @@
     return {
         // Housekeeping
         apiRateLimitStatus: function(a) {
+
+                                if(typeof a === 'undefined')
+                                  a = {};
+
                               // Channel ID
                                 // If undefined, use object level channelId
                                 if(typeof a.channelId === "undefined")
@@ -107,11 +111,18 @@
         },
         // Channels
         listChannels: function(a) {
+
+                                if(typeof a === 'undefined')
+                                  a = {};
+
                                 a.path = '/p/channels/list.xml';
                                 return makeRequest(a);
         },
         // Tours
         searchTours: function(a) {
+
+                                if(typeof a === 'undefined')
+                                  a = {};
 
                               // Convert/set search params
                                 // If undefined
@@ -136,6 +147,9 @@
         },
         listTours: function(a) {
 
+                                if(typeof a === 'undefined')
+                                  a = {};
+
                               // Convert/set search params
                                 // If undefined
                                 if(typeof a.qs === "undefined") {
@@ -159,7 +173,6 @@
         },
         showTour: function(a) {
 
-
                                 // If QS undefined
                                 if(typeof a.qs === "undefined") {
                                     a.qs = {};
@@ -178,7 +191,6 @@
                                 }
 
                                 a.qs = toQueryString(a.qs);
-
 
                               // Channel ID
                                 // If undefined, use object level channelId
