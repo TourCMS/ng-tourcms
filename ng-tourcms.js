@@ -95,6 +95,7 @@
 
     // Return our singleton
     return {
+        // Housekeeping
         apiRateLimitStatus: function(a) {
                               // Channel ID
                                 // If undefined, use object level channelId
@@ -104,31 +105,12 @@
                                 a.path = '/api/rate_limit_status.xml';
                                 return makeRequest(a);
         },
-        searchTours: function(a) {
-
-                              // Convert/set search params
-                                // If undefined
-                            		if(typeof a.qs === "undefined") {
-                            			a.qs = "";
-                                // If array of key value pairs
-                                } else if(typeof a.qs === 'object') {
-                                  a.qs = toQueryString(a.qs);
-                                }
-                                // Otherwise leave alone (already a query string)
-
-                              // Channel ID
-                                // If undefined, use object level channelId
-                            		if(typeof a.channelId === "undefined")
-                            			a.channelId = channelId;
-
-                              // Set API path
-                            		if(a.channelId==0)
-                            			a.path = '/p/tours/search.xml?' + a.qs;
-                            		else
-                            			a.path = '/c/tours/search.xml?' + a.qs;
-
+        // Channels
+        listChannels: function(a) {
+                                a.path = '/p/channels/list.xml';
                                 return makeRequest(a);
         },
+        // Tours
         searchTours: function(a) {
 
                               // Convert/set search params
@@ -149,6 +131,29 @@
                                   a.path = '/p/tours/search.xml?' + a.qs;
                                 else
                                   a.path = '/c/tours/search.xml?' + a.qs;
+
+                                return makeRequest(a);
+        },
+        listTours: function(a) {
+
+                              // Convert/set search params
+                                // If undefined
+                                if(typeof a.qs === "undefined") {
+                                  a.qs = {};
+                                }
+
+                                a.qs = toQueryString(a.qs);
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                              // Set API path
+                                if(a.channelId==0)
+                                  a.path = '/p/tours/list.xml?' + a.qs;
+                                else
+                                  a.path = '/c/tours/list.xml?' + a.qs;
 
                                 return makeRequest(a);
         },

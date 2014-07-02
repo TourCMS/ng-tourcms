@@ -24,7 +24,9 @@ var channelId = 0;
 
 ## API methods
 
-### [API Rate Limit Status](http://www.tourcms.com/support/api/mp/rate_limit_status.php)
+### General API / Housekeeping
+
+#### [API Rate Limit Status](http://www.tourcms.com/support/api/mp/rate_limit_status.php)
 Check the current API rate limit status.
 ```js
 tourcmsApiService.apiRateLimitStatus({channelId: 3930})
@@ -38,7 +40,25 @@ tourcmsApiService.apiRateLimitStatus({channelId: 3930})
     });
 ```
 
-### [Search Tours](http://www.tourcms.com/support/api/mp/tour_search.php)
+### Channel (Operator / Supplier) APIs
+
+#### [List Channels](http://www.tourcms.com/support/api/mp/channels_list.php)
+List channels.
+```js
+tourcmsApiService.listChannels()
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
+### Tour (Product) APIs
+
+#### [Search Tours](http://www.tourcms.com/support/api/mp/tour_search.php)
 Search for tours.
 
 If a Channel ID is not provided, the function will use the channel Id
@@ -61,7 +81,44 @@ tourcmsApiService.searchTours({
     });
 ```
 
-### [Show Tour](http://www.tourcms.com/support/api/mp/tour_show.php)
+#### [List Tours](http://www.tourcms.com/support/api/mp/tours_list.php)
+List tours.
+
+If a Channel ID is not provided, the function will use the channel Id
+ configured on the service (see above).
+```js
+tourcmsApiService.listTours({
+      channelId: 3930
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+Also supports passing of the various query string parameters
+```js
+tourcmsApiService.listTours({
+      channelId: 3930,
+      qs: {
+        booking_style: "booking",
+        qc: 1
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
+#### [Show Tour](http://www.tourcms.com/support/api/mp/tour_show.php)
 Show details of a specific tour tour.
 
 If a Channel ID is not provided, the function will use the channel Id
