@@ -51,14 +51,14 @@ TODO:
 
 ## Dependencies / Requirements
 
-Requires [SHA256.js](http://pajhome.org.uk/crypt/md5/sha256.html)
+1. Requires [SHA256.js](http://pajhome.org.uk/crypt/md5/sha256.html)
 
-Optionally, add [X2JS](http://code.google.com/p/x2js/) to receive JSON back rather than the default XML
+2. Optionally, add [X2JS](http://code.google.com/p/x2js/) to receive JSON back rather than the default XML
 
-At the time of writing TourCMS API does not support [CORS](http://www.w3.org/TR/cors/), thus this library is largely
+3. At the time of writing TourCMS API does not support [CORS](http://www.w3.org/TR/cors/), thus this library is largely
 intended for use developing with AngularJS in native wrapper environments such as Cordova (Phonegap).
 
-If using Cordova (Phonegap) you may need to whitelist network access to the TourCMS API on`https://api.tourcms.com` and - if you are linking to TourCMS hosted images - our media CDN on `http://media.tourcms.com` and `http://*.rackcdn.com`.
+  If using Cordova (Phonegap) you may need to whitelist network access to the TourCMS API on`https://api.tourcms.com` and - if you are linking to TourCMS hosted images - our media CDN on `http://media.tourcms.com` and `http://*.rackcdn.com`.
 
 ## Installation / Configuration
 
