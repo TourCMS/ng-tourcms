@@ -4,27 +4,75 @@ AngularJS service for accessing the [TourCMS](http://www.tourcms.com) [API](http
 
 ## Status
 
-Early code, configuration is hard coded in the script file, not many API methods implemented.
+Fairly early code. Not all API methods implemented.
 
-## Dependencies
+TODO:
+
+* ~~General / Housekeeping APIs~~
+  * ~~API Rate Limit Status~~
+* ~~Channel (Operator) APIs~~
+  * ~~List Channels~~
+  * ~~Show Channel~~
+  * ~~Channel Performance~~
+* Tour (Product) APIs
+  * ~~Search Tours~~
+  * ~~List Tours~~
+  * ~~Show Tour~~
+  * ~~Show Tour Dates and Deals~~
+  * ~~Check Tour Availability~~
+  * Show Tour Departures
+  * Search Hotels by Specific Availability
+  * List Tour Locations
+  * List Tour Images
+  * Update Tour
+* Bookings & Payments
+  * ~~Show Promo Code~~
+  * ~~Search Bookings~~
+  * ~~Show Booking~~
+  * ~~Search Vouchers~~
+  * ~~Redeem Voucher~~
+  * Start New Booking
+  * Delete Booking
+  * Commit Booking
+  * Update Booking
+  * Cancel Booking
+  * Store Payment
+  * Record Failed Payment
+  * Spreedly Payment
+* Internal Supplier APIs
+  * ~~Show Supplier~~
+
+
+## Dependencies / Requirements
 
 Requires [SHA256.js](http://pajhome.org.uk/crypt/md5/sha256.html)
 
 Optionally, add [X2JS](http://code.google.com/p/x2js/) to receive JSON back rather than the default XML
 
-## Configuration
+At the time of writing TourCMS API does not support [CORS](http://www.w3.org/TR/cors/), thus this library is largely
+intended for use in development environments such as Cordova (Phonegap).
 
-Currently hard coded in the ng-tourcms.js file.
+If using Cordova you may need to whitelist access to the TourCMS API (`https://api.tourcms.com`) and photo hosting (`http://media.tourcms.com`, `http://*.rackcdn.com`).
+
+## Installation / Configuration
+
+Ensure `ng-tours.js` is included in your project.
+
+Call the `configure` method to set your API parameters, `channelID` can alternatively be passed when
+making API calls, those accessing the API as an Agent, working with multiple Channels will likely work in that way,
+rather than configuring here.
 
 ```js
-var apiKey = 'API_KEY_HERE';
-var marketplaceId = 0;
-var channelId = 0;
+tourcmsApiService.configure({
+      apiKey: posSettings.get('Your API Key'),
+      marketplaceId: posSettings.get('Your Marketplace ID'),
+      channelId: posSettings.get('Your Channel ID')
+    });
 ```
 
 ## API methods
 
-### General API / Housekeeping APIs
+### General/ Housekeeping APIs
 
 #### [API Rate Limit Status](http://www.tourcms.com/support/api/mp/rate_limit_status.php)
 Check the current API rate limit status.

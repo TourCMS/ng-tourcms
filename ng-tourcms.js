@@ -4,13 +4,9 @@
 
     var baseUrl = 'https://api.tourcms.com';
 
-    var apiKey = '0df0db4dc340';
+    var apiKey = '';
     var marketplaceId = 0;
-    var channelId = 3930;
-
-    /*apiKey = '5aed2d3d69ea';
-    marketplaceId = 126;
-    channelId = 0;*/
+    var channelId = 0;
 
     var makeRequest = function(a) {
       // Sensible defaults
@@ -99,6 +95,18 @@
 
     // Return our singleton
     return {
+        // Configure this service
+        configure: function(a) {
+            if(typeof a.apiKey !== 'undefined') {
+              apiKey = a.apiKey;
+            }
+            if(typeof a.marketplaceId !== 'undefined') {
+              marketplaceId = a.marketplaceId;
+            }
+            if(typeof a.channelId !== 'undefined') {
+              channelId = a.channelId;
+            }
+        },
         // Housekeeping
         apiRateLimitStatus: function(a) {
 
