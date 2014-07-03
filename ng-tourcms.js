@@ -8,7 +8,6 @@
     var marketplaceId = 0;
     var channelId = 0;
 
-
     var makeRequest = function(a) {
       // Sensible defaults
       if(typeof a.channelId == "undefined")
@@ -279,6 +278,17 @@
                                   a.channelId = channelId;
 
                                 a.path = '/c/tour/datesprices/checkavail.xml?' + a.qs;
+
+                                return makeRequest(a);
+        },
+        showPromo: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                a.path = '/c/promo/show.xml?promo_code=' + a.promo;
 
                                 return makeRequest(a);
         }

@@ -257,3 +257,27 @@ tourcmsApiService.checkTourAvailability({
       console.log(status);
     });
 ```
+
+#### [Show Promo Code](http://www.tourcms.com/support/api/mp/promo_show.php)
+Get details on a promotional code. Ueful for checking whether a promo code is valid
+for a certain channel, and if so, whether a membership number or similar is required
+to verify the promo.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+
+ The following example tries to show promo code 'TENPERCENT' on Channel 3930.
+```js
+tourcmsApiService.showPromo({
+      channelId: 3930,
+      promo: 'TENPERCENT'
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
