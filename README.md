@@ -236,13 +236,16 @@ Check availability for a specific date and number of people on a specific tour.
 
 If a Channel ID is not provided, the function will use the Channel ID
  configured on the service (see above).
+
+ The following example checks availability for 2 people
+ on the first rate (e.g. usually "2 Adults") on the 30th Jan 2015 for Tour ID 1 on Channel 3930.
 ```js
 tourcmsApiService.checkTourAvailability({
       channelId: 3930,
       qs: {
-        id: 1
+        id: 1,
         date: '2015-30-01',
-        r1: 1
+        r1: 2
       }
     })
     .success(function(data, status) {
