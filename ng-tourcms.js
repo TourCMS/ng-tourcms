@@ -8,7 +8,9 @@
     var marketplaceId = 0;
     var channelId = 0;
 
+    // Generic API request function
     var makeRequest = function(a) {
+      
       // Sensible defaults
       if(typeof a.channelId == "undefined")
         a.channelId = 0;
@@ -16,7 +18,6 @@
       if(typeof a.verb == "undefined")
         a.verb = 'GET';
 
-      //console.log(a.postData);
 
       if(typeof a.postData == "undefined") {
         var apiParams = "";
@@ -69,6 +70,7 @@
       return Math.floor(new Date().getTime() / 1000);
     }
 
+    // URL encode to match PHP
     var rawurlencode = function(str) {
     //From http://phpjs.org/functions/rawurlencode/
     str = (str + '')
@@ -83,6 +85,7 @@
         .replace(/\*/g, '%2A');
     }
 
+    // Convert an object to a Query String
     var toQueryString = function(obj) {
     var parts = [];
     for (var i in obj) {
@@ -91,6 +94,37 @@
         }
     }
         return parts.join("&");
+    }
+
+    // Convert an Object or XML string to DOM
+    // Object conversion requires X2JS
+    var toDom = function(xmlStringOrJs, rootNode) {
+
+      // If we have X2JS installed
+      if(typeof X2JS !== 'undefined') {
+
+        // If we have an Object rather than an XML string
+        if(typeof xmlStringOrJs === 'object') {
+
+          // If we've been given a root node to use
+          if(typeof rootNode ===  'string'){
+
+            // Add our root node
+            var tourObj = {};
+            tourObj[rootNode] = xmlStringOrJs;
+          }
+
+          // Convert
+          var x2js = new X2JS();
+          var doc = x2js.json2xml( tourObj );
+          return doc;
+        }
+      }
+
+      // No X2JS so just attempt to parse as an XML string
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(xmlStringOrJs, "application/xml");
+      return doc;
     }
 
     // Return our singleton
@@ -232,6 +266,39 @@
                                   a.channelId = channelId;
 
                                 a.path = '/c/tour/show.xml?' + a.qs;
+
+                                return makeRequest(a);
+        },
+        updateTour: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                              // Tour ID
+                                // If tour is object and provided as tourId, fix
+                                if(typeof a.tour !== 'string') {
+                                  if(typeof a.tour.tour_id === "undefined") {
+                                      if(typeof a.tour.tourId !== "undefined") {
+                                        a.tour.tour_id = a.tour.tourId;
+                                        delete a.tour.tourId;
+                                      }
+                                  }
+                                }
+
+                              // Tour data
+                                // Convert string/object to DOM
+                                var tourInfo = toDom(a.tour, 'tour');
+
+                              // Set post data
+
+                                a.postData = tourInfo;
+
+                              // Set API path
+                                a.path = '/c/tour/update.xml';
+
+                                a.verb = 'POST';
 
                                 return makeRequest(a);
         },
@@ -427,6 +494,12 @@
 
                                 return makeRequest(a);
         },
+        // Make a generic API request
+        genericRequest: function(a) {
+
+                                return makeRequest(a);
+
+        }
 
     };
 

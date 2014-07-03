@@ -62,9 +62,9 @@ intended for use developing with AngularJS in native wrapper environments such a
 
 ## Installation / Configuration
 
-Ensure `ng-tours.js` is included in your project.
+Ensure `ng-tours.js` is included in your project, `tourcms.ng-tourcms` is required by your module and `tourcmsApiService` is passed wherever it will be used.
 
-Call the `configure` method to set your API parameters, `channelID` can alternatively be passed when
+Call the `configure` method on `tourcmsApiService` to set your API parameters, `channelID` can alternatively be passed when
 making API calls, those accessing the API as an Agent, working with multiple Channels will likely work in that way,
 rather than configuring here.
 
@@ -106,6 +106,27 @@ tourcmsApiService.apiRateLimitStatus({channelId: 3930})
     });
 ```
 
+#### Generic API request
+Provides an interface for calling APIs with no specific wrapper function.
+
+E.g. to simulate API Rate Limit Status (above):
+```js
+tourcmsApiService.genericRequest({
+        channelId: 3930,
+        verb: 'GET',
+        postData: '',
+        path: '/api/rate_limit_status.xml'
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+The default `verb` is 'GET', `postData` should be DOM.
 
 ### Channel (Operator / Supplier) APIs
 
@@ -143,9 +164,9 @@ tourcmsApiService.showChannel({channelId: 3930})
 
 
 #### [Channel Performance](http://www.tourcms.com/support/api/mp/channels_performance.php)
-List top 50 channels by number of unique visitor clicks (or check performance for a specific channel).
+List top 50 Channels by number of unique visitor clicks (or check performance for a specific channel).
 
-Supply a Channel ID to just return a specific Channel.
+Optonally supply an object containing a `channelId` to just return a specific Channel.
 
 ```js
 tourcmsApiService.ChannelPerformance()
@@ -163,7 +184,7 @@ tourcmsApiService.ChannelPerformance()
 ### Tour (Product) APIs
 
 #### [Search Tours](http://www.tourcms.com/support/api/mp/tour_search.php)
-Search for tours.
+Search Tours.
 
 If a Channel ID is not provided, the function will use the Channel ID
  configured on the service (see above).
@@ -187,7 +208,7 @@ tourcmsApiService.searchTours({
 
 
 #### [List Tours](http://www.tourcms.com/support/api/mp/tours_list.php)
-List tours.
+List Tours.
 
 If a Channel ID is not provided, the function will use the Channel ID
  configured on the service (see above).
@@ -225,7 +246,7 @@ tourcmsApiService.listTours({
 
 
 #### [Show Tour](http://www.tourcms.com/support/api/mp/tour_show.php)
-Show details of a specific tour tour.
+Show details of a specific Tour.
 
 If a Channel ID is not provided, the function will use the Channel ID
  configured on the service (see above).
