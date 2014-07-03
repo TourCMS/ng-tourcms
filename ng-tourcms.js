@@ -8,6 +8,7 @@
     var marketplaceId = 0;
     var channelId = 0;
 
+
     var makeRequest = function(a) {
       // Sensible defaults
       if(typeof a.channelId == "undefined")
@@ -249,6 +250,35 @@
                                   a.channelId = channelId;
 
                                 a.path = '/c/tour/datesprices/datesndeals/search.xml?' + a.qs;
+
+                                return makeRequest(a);
+        },
+        checkTourAvailability: function(a) {
+
+                                // If QS undefined
+                                if(typeof a.qs === "undefined") {
+                                    a.qs = {};
+                                }
+
+                                // Add in the TourId in if provided separately
+                                if(typeof a.tourId !== 'undefined') {
+                                  a.qs['id'] = a.tourId;
+                                }
+
+                                // Fix id if passed in to qs directly as tourId
+                                if(typeof a.qs.tourId !== 'undefined') {
+                                  a.qs['id'] = a.qs.tourId;
+                                  delete a.qs['tourId'];
+                                }
+
+                                a.qs = toQueryString(a.qs);
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                a.path = '/c/tour/datesprices/checkavail.xml?' + a.qs;
 
                                 return makeRequest(a);
         }

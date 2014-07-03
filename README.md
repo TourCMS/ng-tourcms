@@ -229,3 +229,28 @@ tourcmsApiService.showTourDatesDeals({
       console.log(status);
     });
 ```
+
+
+#### [Check Tour Availability](http://www.tourcms.com/support/api/mp/tour_checkavail.php)
+Check availability for a specific date and number of people on a specific tour.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+```js
+tourcmsApiService.checkTourAvailability({
+      channelId: 3930,
+      qs: {
+        id: 1
+        date: '2015-30-01',
+        r1: 1
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
