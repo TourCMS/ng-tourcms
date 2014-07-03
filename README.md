@@ -21,7 +21,7 @@ TODO:
   * ~~Show Tour Dates and Deals~~
   * ~~Check Tour Availability~~
   * Search Hotels by Specific Availability
-  * Update Tour
+  * ~~Update Tour~~
   * Bulk exporting
     * Show Tour Departures
     * List Tour Locations
@@ -341,6 +341,46 @@ tourcmsApiService.checkTourAvailability({
         date: '2015-30-01',
         r1: 2
       }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
+#### [Update Tour](http://www.tourcms.com/support/api/mp/tour_update.php)
+Update the main details on a Tour, currently supports updating the Tour URL only.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+
+If X2JS is being used, tour data can be provided as an object
+```js
+tourcmsApiService.updateTour({
+      channelId: 3930,
+      tour: {
+        tour_id: 1,
+        tour_url: '/example-tour_1/'
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+If X2JS is not being used, tour data must be provided as an XML string
+```js
+tourcmsApiService.updateTour({
+      channelId: 3930,
+      tour: '<tour><tour_id>1</tour_id><tour_url>/example-tour_1/</tour_url></tour>'
     })
     .success(function(data, status) {
       console.log('Success');
