@@ -338,3 +338,29 @@ tourcmsApiService.showBooking({
       console.log(status);
     });
 ```
+
+
+#### [Search Vouchers](http://www.tourcms.com/support/api/mp/voucher_search.php)
+Provide the barcode data from a TourCMS (or OTA) voucher and receive a list of matching components.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+
+ NB: At the time of writing the text displayed under the barcode on TourCMS vouchers is __not__
+ the same as the text contained within the barcode. For testing purposes grab the _barcode_data_ from
+ one of the Booking APIs or decode the QR code on a voucher.
+
+```js
+tourcmsApiService.searchVouchers({
+      channelId: 3930,
+      voucherString: 'TOURCMS|4069|4112'
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```

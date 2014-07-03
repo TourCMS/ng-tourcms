@@ -6,7 +6,7 @@
 
     var apiKey = '';
     var marketplaceId = 0;
-    var channelId = ;
+    var channelId = 0;
 
     var makeRequest = function(a) {
       // Sensible defaults
@@ -24,7 +24,7 @@
         var s = new XMLSerializer();
         var apiParams = s.serializeToString(a.postData);
       }
-
+      console.log(apiParams);
       // Get the current time
       var outboundTime = generateTime();
 
@@ -38,7 +38,7 @@
       return $http({
                 method: a.verb,
                 url: apiUrl,
-                params: apiParams,
+                data: apiParams,
                 headers: {
                   'x-tourcms-date': outboundTime,
                   'Authorization': 'TourCMS ' + a.channelId + ':' + marketplaceId + ':' + signature,
@@ -328,7 +328,43 @@
                                 a.path = '/c/booking/show.xml?booking_id=' + a.bookingId;
 
                                 return makeRequest(a);
-        }
+        },
+        // Vouchers
+        searchVouchers: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                if(typeof a.voucherString === "undefined")
+                            		a.voucherString = '';
+
+                            		// creates a Document object with root "<voucher>"
+                            		var doc = document.implementation.createDocument(null, null, null);
+                            		var voucherData = doc.createElement("voucher"), text;
+
+                            		// create the <barcode_data> node
+                            		var barcodeData = doc.createElement("barcode_data"), text;
+                            		var barcodeText = doc.createTextNode(a.voucherString);
+
+                            		// append to document
+                            		barcodeData.appendChild(barcodeText);
+                            		voucherData.appendChild(barcodeData);
+                            		doc.appendChild(voucherData);
+                            		a.postData = voucherData;
+
+                                // Set API path
+                            		if(a.channelId==0)
+                            			a.path = '/p/voucher/search.xml';
+                            		else
+                            			a.path = '/c/voucher/search.xml';
+
+                                a.verb = 'POST';
+
+                                return makeRequest(a);
+        },
+
     };
 
 });
