@@ -20,11 +20,17 @@ TODO:
   * ~~Show Tour~~
   * ~~Show Tour Dates and Deals~~
   * ~~Check Tour Availability~~
-  * Show Tour Departures
   * Search Hotels by Specific Availability
-  * List Tour Locations
-  * List Tour Images
   * Update Tour
+  * Bulk exporting
+    * Show Tour Departures
+    * List Tour Locations
+    * List Tour Images
+  * Managing dates and prices externally
+    * Search raw departures
+    * Create new departure
+    * Update departure
+    * Delete departure
 * Bookings & Payments
   * ~~Show Promo Code~~
   * ~~Search Bookings~~
@@ -50,9 +56,9 @@ Requires [SHA256.js](http://pajhome.org.uk/crypt/md5/sha256.html)
 Optionally, add [X2JS](http://code.google.com/p/x2js/) to receive JSON back rather than the default XML
 
 At the time of writing TourCMS API does not support [CORS](http://www.w3.org/TR/cors/), thus this library is largely
-intended for use in development environments such as Cordova (Phonegap).
+intended for use developing with AngularJS in native wrapper environments such as Cordova (Phonegap).
 
-If using Cordova you may need to whitelist access to the TourCMS API (`https://api.tourcms.com`) and photo hosting (`http://media.tourcms.com`, `http://*.rackcdn.com`).
+If using Cordova (Phonegap) you may need to whitelist network access to the TourCMS API on`https://api.tourcms.com` and - if you are linking to TourCMS hosted images - our media CDN on `http://media.tourcms.com` and `http://*.rackcdn.com`.
 
 ## Installation / Configuration
 
@@ -62,13 +68,25 @@ Call the `configure` method to set your API parameters, `channelID` can alternat
 making API calls, those accessing the API as an Agent, working with multiple Channels will likely work in that way,
 rather than configuring here.
 
+Typical Tour Operator configuration:
+
 ```js
 tourcmsApiService.configure({
-      apiKey: posSettings.get('Your API Key'),
-      marketplaceId: posSettings.get('Your Marketplace ID'),
-      channelId: posSettings.get('Your Channel ID')
+      apiKey: 'Your API Key',
+      channelId: 'Your Channel ID'
     });
 ```
+
+Typical Marketplace Agent configuration (working with multiple Channels):
+
+
+```js
+tourcmsApiService.configure({
+      apiKey: 'Your API Key',
+      marketplaceId: 'Your Marketplace ID'
+    });
+```
+
 
 ## API methods
 
