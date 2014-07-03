@@ -113,8 +113,6 @@ E.g. to simulate API Rate Limit Status (above):
 ```js
 tourcmsApiService.genericRequest({
         channelId: 3930,
-        verb: 'GET',
-        postData: '',
         path: '/api/rate_limit_status.xml'
     })
     .success(function(data, status) {
@@ -126,7 +124,9 @@ tourcmsApiService.genericRequest({
       console.log(status);
     });
 ```
-The default `verb` is 'GET', `postData` should be DOM.
+Can also provide a `verb` (default is 'GET') and
+`postData`, which - if provided - must be a DOM document representing the XML data
+to post to the API.
 
 ### Channel (Operator / Supplier) APIs
 
