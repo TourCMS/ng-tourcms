@@ -364,3 +364,25 @@ tourcmsApiService.searchVouchers({
       console.log(status);
     });
 ```
+
+#### [Redeem Voucher](http://www.tourcms.com/support/api/mp/voucher_redeem.php)
+Redeem (Check in) a particular component using a key obtained from "Search Vouchers".
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+
+```js
+tourcmsApiService.redeemVoucher({
+      channelId: 3930,
+      key: 'Ax9SLSJFLSFJLS/oZu9NhurfJ8RMibtHmrL2kT6w=',
+      note: 'Optionally add a note here'
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```

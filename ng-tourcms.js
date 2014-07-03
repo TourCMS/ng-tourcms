@@ -4,9 +4,13 @@
 
     var baseUrl = 'https://api.tourcms.com';
 
-    var apiKey = '';
+    var apiKey = '0df0db4dc340';
     var marketplaceId = 0;
-    var channelId = 0;
+    var channelId = 3930;
+
+    /*apiKey = '5aed2d3d69ea';
+    marketplaceId = 126;
+    channelId = 0;*/
 
     var makeRequest = function(a) {
       // Sensible defaults
@@ -24,7 +28,7 @@
         var s = new XMLSerializer();
         var apiParams = s.serializeToString(a.postData);
       }
-      console.log(apiParams);
+
       // Get the current time
       var outboundTime = generateTime();
 
@@ -359,6 +363,45 @@
                             			a.path = '/p/voucher/search.xml';
                             		else
                             			a.path = '/c/voucher/search.xml';
+
+                                a.verb = 'POST';
+
+                                return makeRequest(a);
+        },
+        redeemVoucher: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                if(typeof a.key === "undefined")
+                                a.key = '';
+
+                                // creates a Document object with root "<voucher>"
+                                var doc = document.implementation.createDocument(null, null, null);
+                                var voucherData = doc.createElement("voucher"), text;
+
+                                // create the <key> node
+                                var keyData = doc.createElement("key"), text;
+                                var keyText = doc.createTextNode(a.key);
+
+                                // Create the <note> node
+                                var noteData = doc.createElement("note"), text;
+                                var noteText = doc.createTextNode(a.note);
+
+                                // append to document
+                                keyData.appendChild(keyText);
+                                voucherData.appendChild(keyData);
+
+                                noteData.appendChild(noteText);
+                                voucherData.appendChild(noteData);
+
+                                doc.appendChild(voucherData);
+                                a.postData = voucherData;
+
+                                // Set API path
+                                a.path = '/c/voucher/redeem.xml';
 
                                 a.verb = 'POST';
 
