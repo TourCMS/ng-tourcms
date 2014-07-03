@@ -6,7 +6,7 @@
 
     var apiKey = '';
     var marketplaceId = 0;
-    var channelId = 0;
+    var channelId = ;
 
     var makeRequest = function(a) {
       // Sensible defaults
@@ -315,6 +315,17 @@
                                     a.path = '/p/bookings/search.xml?' + a.qs;
                                   else
                                     a.path = '/c/bookings/search.xml?' + a.qs;
+
+                                return makeRequest(a);
+        },
+        showBooking: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                a.path = '/c/booking/show.xml?booking_id=' + a.bookingId;
 
                                 return makeRequest(a);
         }

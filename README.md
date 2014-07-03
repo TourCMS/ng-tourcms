@@ -317,3 +317,24 @@ tourcmsApiService.searchBookings({
       console.log(status);
     });
 ```
+#### [Show Booking](http://www.tourcms.com/support/api/mp/booking_show.php)
+Get details on a specific Booking.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+
+The following example tries to show Booking 3770 on Channel 3930.
+```js
+tourcmsApiService.showBooking({
+      channelId: 3930,
+      bookingId: 3770
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
