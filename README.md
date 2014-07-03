@@ -40,6 +40,7 @@ tourcmsApiService.apiRateLimitStatus({channelId: 3930})
     });
 ```
 
+
 ### Channel (Operator / Supplier) APIs
 
 #### [List Channels](http://www.tourcms.com/support/api/mp/channels_list.php)
@@ -55,6 +56,7 @@ tourcmsApiService.listChannels()
       console.log(status);
     });
 ```
+
 
 #### [Show Channel](http://www.tourcms.com/support/api/mp/channel_show.php)
 Show details on a specific channel.
@@ -73,6 +75,7 @@ tourcmsApiService.showChannel({channelId: 3930})
     });
 ```
 
+
 #### [Channel Performance](http://www.tourcms.com/support/api/mp/channels_performance.php)
 List top 50 channels by number of unique visitor clicks (or check performance for a specific channel).
 
@@ -89,6 +92,7 @@ tourcmsApiService.ChannelPerformance()
       console.log(status);
     });
 ```
+
 
 ### Tour (Product) APIs
 
@@ -114,6 +118,7 @@ tourcmsApiService.searchTours({
       console.log(status);
     });
 ```
+
 
 #### [List Tours](http://www.tourcms.com/support/api/mp/tours_list.php)
 List tours.
@@ -151,6 +156,7 @@ tourcmsApiService.listTours({
       console.log(status);
     });
 ```
+
 
 #### [Show Tour](http://www.tourcms.com/support/api/mp/tour_show.php)
 Show details of a specific tour tour.
@@ -190,6 +196,7 @@ tourcmsApiService.showTour({
       console.log(status);
     });
 ```
+
 
 #### [Show Tour Dates and Deals](http://www.tourcms.com/support/api/mp/tour_datesdeals_show.php)
 List the dates available for a specific tour.
@@ -258,6 +265,7 @@ tourcmsApiService.checkTourAvailability({
     });
 ```
 
+
 #### [Show Promo Code](http://www.tourcms.com/support/api/mp/promo_show.php)
 Get details on a promotional code. Ueful for checking whether a promo code is valid
 for a certain channel, and if so, whether a membership number or similar is required
@@ -271,6 +279,34 @@ If a Channel ID is not provided, the function will use the Channel ID
 tourcmsApiService.showPromo({
       channelId: 3930,
       promo: 'TENPERCENT'
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
+### Booking APIs
+
+#### [Search Bookings](http://www.tourcms.com/support/api/mp/booking_search.php)
+Search for bookings, view basic details about each.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+
+The following example searches for active bookings made in June 2014 on Channel 3930.
+```js
+tourcmsApiService.searchBookings({
+      channelId: 3930,
+      qs: {
+        active: 1,
+        made_date_start: '2014-06-01',
+        made_date_end: '2014-06-30'
+      }
     })
     .success(function(data, status) {
       console.log('Success');

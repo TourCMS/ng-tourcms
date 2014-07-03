@@ -291,6 +291,32 @@
                                 a.path = '/c/promo/show.xml?promo_code=' + a.promo;
 
                                 return makeRequest(a);
+        },
+        // Booking API Methods
+        searchBookings: function(a) {
+                                if(typeof a === 'undefined')
+                                  a = {};
+
+                              // Query String
+                                // If QS undefined
+                                if(typeof a.qs === "undefined") {
+                                    a.qs = {};
+                                }
+                                // Convert to string
+                                a.qs = toQueryString(a.qs);
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                // Set API path
+                                  if(a.channelId==0)
+                                    a.path = '/p/bookings/search.xml?' + a.qs;
+                                  else
+                                    a.path = '/c/bookings/search.xml?' + a.qs;
+
+                                return makeRequest(a);
         }
     };
 
