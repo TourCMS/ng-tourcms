@@ -386,3 +386,24 @@ tourcmsApiService.redeemVoucher({
       console.log(status);
     });
 ```
+
+### Internal Supplier APIs
+#### [Show Supplier](http://www.tourcms.com/support/api/mp/supplier_show.php)
+Get details on a specific Supplier.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+```js
+tourcmsApiService.showBooking({
+      channelId: 3930,
+      supplierId: 1
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```

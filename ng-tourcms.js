@@ -407,6 +407,18 @@
 
                                 return makeRequest(a);
         },
+        // Suppliers (Internal TourCMS)
+        showSupplier: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                a.path = '/c/supplier/show.xml?supplier_id=' + a.supplierId;
+
+                                return makeRequest(a);
+        },
 
     };
 
