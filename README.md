@@ -37,9 +37,9 @@ TODO:
   * ~~Show Booking~~
   * ~~Search Vouchers~~
   * ~~Redeem Voucher~~
-  * Start New Booking
+  * ~~Start New Booking~~
   * Delete Booking
-  * Commit Booking
+  * ~~Commit Booking~~
   * Update Booking
   * Cancel Booking
   * Store Payment
@@ -466,6 +466,105 @@ tourcmsApiService.showBooking({
     });
 ```
 
+#### [Start New Booking](http://www.tourcms.com/support/api/mp/booking_start_new.php)
+Create a temporary booking, holding stock.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+
+If X2JS is being used, booking data can be provided as an object
+```js
+tourcmsApiService.startNewBooking({
+      channelId: 3930,
+      booking: {
+        total_customers: 2,
+        components: {
+          component: [
+            {
+              component_key: 'YYY-YYYYYYY-YYYYY',
+              note: 'Some text'
+            },
+            {
+              component_key: 'ZZZ-ZZZZZZZ-ZZZZZ',
+              note: 'Extra info',
+              pickup_key: 'TTT-TTTTTTTTT-TTTTTT'
+            }
+          ]
+        }
+        customers: {
+          customer: [
+            {
+              firstname: 'Joe',
+              surname: 'Bloggs'
+            }
+          ]
+        }
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+If X2JS is not being used, booking data must be provided as an XML string
+```js
+tourcmsApiService.startNewBooking({
+      channelId: 3930,
+      booking: '<booking><total_customers>2</totalcustomers><components> ... etc ... </components></booking>'
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
+#### [Commit Booking](http://www.tourcms.com/support/api/mp/booking_commit_new.php)
+Convert a temporary booking into a proper booking.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+
+If X2JS is being used, booking data can be provided as an object
+```js
+tourcmsApiService.commitBooking({
+      channelId: 3930,
+      booking: {
+        booking_id: 1234,
+        suppress_email: 1
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+If X2JS is not being used, booking data must be provided as an XML string
+```js
+tourcmsApiService.commitBooking({
+      channelId: 3930,
+      booking: '<booking><booking_id>1234</booking_id><suppress_email>1</suppress_email></booking>'
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
 
 #### [Search Vouchers](http://www.tourcms.com/support/api/mp/voucher_search.php)
 Provide the barcode data from a TourCMS (or OTA) voucher and receive a list of matching components.

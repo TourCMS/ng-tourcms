@@ -10,7 +10,6 @@
 
     // Generic API request function
     var makeRequest = function(a) {
-      
       // Sensible defaults
       if(typeof a.channelId == "undefined")
         a.channelId = 0;
@@ -18,6 +17,7 @@
       if(typeof a.verb == "undefined")
         a.verb = 'GET';
 
+      //console.log(a.postData);
 
       if(typeof a.postData == "undefined") {
         var apiParams = "";
@@ -408,9 +408,49 @@
 
                                 return makeRequest(a);
         },
+        startNewBooking: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                // Convert string/object to DOM
+                                var bookingInfo = toDom(a.booking, 'booking');
+
+                                // Set post data
+                                a.postData = bookingInfo;
+
+                                a.path = '/c/booking/new/start.xml';
+
+                                a.verb = 'POST';
+
+                                return makeRequest(a);
+
+        },
+        commitBooking: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                // Convert string/object to DOM
+                                var bookingInfo = toDom(a.booking, 'booking');
+
+                                // Set post data
+                                a.postData = bookingInfo;
+
+                                a.path = '/c/booking/new/commit.xml';
+
+                                a.verb = 'POST';
+
+                                return makeRequest(a);
+
+        },
         // Vouchers
         searchVouchers: function(a) {
-
+                              console.log(channelId);
                               // Channel ID
                                 // If undefined, use object level channelId
                                 if(typeof a.channelId === "undefined")
