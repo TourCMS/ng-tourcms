@@ -38,10 +38,10 @@ TODO:
   * ~~Search Vouchers~~
   * ~~Redeem Voucher~~
   * ~~Start New Booking~~
-  * Delete Booking
+  * ~~Delete Booking~~
   * ~~Commit Booking~~
   * Update Booking
-  * Cancel Booking
+  * ~~Cancel Booking~~
   * Store Payment
   * Record Failed Payment
   * Spreedly Payment
@@ -447,8 +447,7 @@ tourcmsApiService.searchBookings({
 #### [Show Booking](http://www.tourcms.com/support/api/mp/booking_show.php)
 Get details on a specific Booking.
 
-If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
 
 The following example tries to show Booking 3770 on Channel 3930.
 ```js
@@ -469,8 +468,7 @@ tourcmsApiService.showBooking({
 #### [Start New Booking](http://www.tourcms.com/support/api/mp/booking_start_new.php)
 Create a temporary booking, holding stock.
 
-If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
 
 If X2JS is being used, booking data can be provided as an object
 ```js
@@ -526,11 +524,32 @@ tourcmsApiService.startNewBooking({
     });
 ```
 
+#### [Delete Booking](http://www.tourcms.com/support/api/mp/booking_delete.php)
+Delete a temporary booking, releasing stock.
+
+If a booking has been committed (see below) it can no longer be deleted, instead cancel it using the "Cancel Booking" method.
+
+If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
+
+```js
+tourcmsApiService.deleteBooking({
+      channelId: 3930,
+      bookingId: 1234
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
 #### [Commit Booking](http://www.tourcms.com/support/api/mp/booking_commit_new.php)
 Convert a temporary booking into a proper booking.
 
-If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
 
 If X2JS is being used, booking data can be provided as an object
 ```js
@@ -555,6 +574,26 @@ If X2JS is not being used, booking data must be provided as an XML string
 tourcmsApiService.commitBooking({
       channelId: 3930,
       booking: '<booking><booking_id>1234</booking_id><suppress_email>1</suppress_email></booking>'
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+#### [Cancel Booking](http://www.tourcms.com/support/api/mp/booking_cancel.php)
+Cancel a committed booking.
+
+If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
+
+```js
+tourcmsApiService.cancelBooking({
+      channelId: 3930,
+      bookingId: 1234,
+      note: 'Some reason for cancellation'
     })
     .success(function(data, status) {
       console.log('Success');

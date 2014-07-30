@@ -428,6 +428,20 @@
                                 return makeRequest(a);
 
         },
+        deleteBooking: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                a.path = '/c/booking/delete.xml?id=' + a.bookingId;
+
+                                a.verb = 'POST';
+
+                                return makeRequest(a);
+
+        },
         commitBooking: function(a) {
 
                               // Channel ID
@@ -442,6 +456,45 @@
                                 a.postData = bookingInfo;
 
                                 a.path = '/c/booking/new/commit.xml';
+
+                                a.verb = 'POST';
+
+                                return makeRequest(a);
+
+        },
+        cancelBooking: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                // creates a Document object with root "<booking>"
+                                var doc = document.implementation.createDocument(null, null, null);
+                                var bookingData = doc.createElement("booking"), text;
+
+                                // create the <booking_id> node
+                                var bookingIdData = doc.createElement("booking_id"), text;
+                                var bookingIdText = doc.createTextNode(a.bookingId);
+                                bookingIdData.appendChild(bookingIdText);
+
+                                // append to document
+                                bookingData.appendChild(bookingIdData);
+
+                                // Note
+                                if(typeof a.note !== 'undefined') {
+                                  // create the <note> node
+                                  var noteData = doc.createElement("note"), text;
+                                  var noteText = doc.createTextNode(a.note);
+                                  noteData.appendChild(noteText);
+
+                                  bookingData.appendChild(noteData);
+                                }
+
+                                doc.appendChild(bookingData);
+                                a.postData = bookingData;
+
+                                a.path = '/c/booking/cancel.xml';
 
                                 a.verb = 'POST';
 
