@@ -435,7 +435,7 @@
                                 if(typeof a.channelId === "undefined")
                                   a.channelId = channelId;
 
-                                a.path = '/c/booking/delete.xml?id=' + a.bookingId;
+                                a.path = '/c/booking/delete.xml?booking_id=' + a.bookingId;
 
                                 a.verb = 'POST';
 
@@ -481,7 +481,7 @@
                                 // append to document
                                 bookingData.appendChild(bookingIdData);
 
-                                // Note
+                                // optionally add a note
                                 if(typeof a.note !== 'undefined') {
                                   // create the <note> node
                                   var noteData = doc.createElement("note"), text;
