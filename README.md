@@ -41,6 +41,7 @@ TODO:
   * ~~Delete Booking~~
   * ~~Commit Booking~~
   * Update Booking
+  * Add note to Booking
   * ~~Cancel Booking~~
   * Store Payment
   * Record Failed Payment
