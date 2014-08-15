@@ -47,6 +47,12 @@ TODO:
   * Store Payment
   * Record Failed Payment
   * Spreedly Payment
+* Customers & Enquiries
+  * Create enquiry
+  * Search enquiries
+  * ~~Show customer~~
+  * Update customer
+  * Customer login search
 * Internal Supplier APIs
   * ~~Show Supplier~~
 
@@ -667,6 +673,26 @@ tourcmsApiService.redeemVoucher({
       channelId: 3930,
       key: 'Ax9SLSJFLSFJLS/oZu9NhurfJ8RMibtHmrL2kT6w=',
       note: 'Optionally add a note here'
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+### Customer / Enquiry APIs
+#### [Show Customer](http://www.tourcms.com/support/api/mp/customer_show.php)
+Get details on a specific customer.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+```js
+tourcmsApiService.showCustomer({
+      channelId: 3930,
+      customerId: 1
     })
     .success(function(data, status) {
       console.log('Success');
