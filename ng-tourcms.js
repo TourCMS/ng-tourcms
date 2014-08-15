@@ -509,7 +509,7 @@
 
                                 // creates a Document object with root "<booking>"
                                 var doc = document.implementation.createDocument(null, null, null);
-                                var bookingData = doc.createElement("booking"), text;
+                                var bookingNode = doc.createElement("booking"), text;
 
                                 // create the <booking_id> node
                                 var bookingIdNode = doc.createElement("booking_id"), text;
@@ -517,7 +517,7 @@
                                 bookingIdNode.appendChild(bookingIdText);
 
                                 // append to document
-                                bookingData.appendChild(bookingIdNode);
+                                bookingNode.appendChild(bookingIdNode);
 
                                 // Add a note
 
@@ -534,12 +534,12 @@
 
                                 noteNode.appendChild(noteTypeNode);
                                 noteNode.appendChild(noteTextNode);
-                                bookingData.appendChild(noteData);
+                                bookingNode.appendChild(noteNode);
 
 
-                                doc.appendChild(bookingData);
+                                doc.appendChild(bookingNode);
 
-                                a.postData = bookingData;
+                                a.postData = bookingNode;
 
 
 
@@ -556,7 +556,7 @@
         },
         // Vouchers
         searchVouchers: function(a) {
-                              //console.log(channelId);
+                              console.log(channelId);
                               // Channel ID
                                 // If undefined, use object level channelId
                                 if(typeof a.channelId === "undefined")
@@ -627,6 +627,17 @@
                                 a.verb = 'POST';
 
                                 return makeRequest(a);
+        },
+        // Customers
+        showCustomer: function(a) {
+
+            if(typeof a.channelId === "undefined")
+              a.channelId = channelId;
+
+            a.path = '/c/customer/show.xml?customer_id=' + a.customerId;
+
+            return makeRequest(a);
+
         },
         // Suppliers (Internal TourCMS)
         showSupplier: function(a) {
