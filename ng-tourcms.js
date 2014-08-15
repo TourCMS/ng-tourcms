@@ -501,9 +501,62 @@
                                 return makeRequest(a);
 
         },
+        addNoteToBooking: function(a) {
+                                // Channel ID
+                                  // If undefined, use object level channelId
+                                  if(typeof a.channelId === "undefined")
+                                    a.channelId = channelId;
+
+                                // creates a Document object with root "<booking>"
+                                var doc = document.implementation.createDocument(null, null, null);
+                                var bookingData = doc.createElement("booking"), text;
+
+                                // create the <booking_id> node
+                                var bookingIdNode = doc.createElement("booking_id"), text;
+                                var bookingIdText = doc.createTextNode(a.bookingId);
+                                bookingIdNode.appendChild(bookingIdText);
+
+                                // append to document
+                                bookingData.appendChild(bookingIdNode);
+
+                                // Add a note
+
+                                // create the <note> node
+                                var noteNode = doc.createElement("note"), text;
+
+                                var noteTypeNode = doc.createElement("type");
+                                var noteType = doc.createTextNode(a.noteType);
+                                noteTypeNode.appendChild(noteType);
+
+                                var noteTextNode = doc.createElement("text");
+                                var noteText = doc.createTextNode(a.noteText);
+                                noteTextNode.appendChild(noteText);
+
+                                noteNode.appendChild(noteTypeNode);
+                                noteNode.appendChild(noteTextNode);
+                                bookingData.appendChild(noteData);
+
+
+                                doc.appendChild(bookingData);
+
+                                a.postData = bookingData;
+
+
+
+                                // Post data
+                                  // Convert string/object to DOM
+                                //  a.postData = toDom(a.booking, 'booking');
+
+                                // Set API path
+                                  a.path = '/c/booking/note/new.xml';
+
+                                  a.verb = 'POST';
+
+                                  return makeRequest(a);
+        },
         // Vouchers
         searchVouchers: function(a) {
-                              console.log(channelId);
+                              //console.log(channelId);
                               // Channel ID
                                 // If undefined, use object level channelId
                                 if(typeof a.channelId === "undefined")

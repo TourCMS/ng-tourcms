@@ -31,6 +31,7 @@ TODO:
     * Create new departure
     * Update departure
     * Delete departure
+    * Show departure
 * Bookings & Payments
   * ~~Show Promo Code~~
   * ~~Search Bookings~~
@@ -41,7 +42,7 @@ TODO:
   * ~~Delete Booking~~
   * ~~Commit Booking~~
   * Update Booking
-  * Add note to Booking
+  * ~~Add note to Booking~~
   * ~~Cancel Booking~~
   * Store Payment
   * Record Failed Payment
@@ -595,6 +596,30 @@ tourcmsApiService.cancelBooking({
       channelId: 3930,
       bookingId: 1234,
       note: 'Some reason for cancellation'
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
+#### [Add Note to Booking](http://www.tourcms.com/support/api/mp/booking_note_new.php)
+Add a note to a booking.
+
+There are multiple note types that can be used, see the API documentation linked above for details.
+
+If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
+
+```js
+tourcmsApiService.addNoteToBooking({
+      channelId: 3930,
+      bookingId: 1234,
+      noteType: 'AUDIT',
+      noteText: 'Some text to add to booking'
     })
     .success(function(data, status) {
       console.log('Success');
