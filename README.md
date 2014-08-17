@@ -31,7 +31,7 @@ TODO:
     * Create new departure
     * Update departure
     * Delete departure
-    * Show departure
+    * ~~Show departure~~
 * Bookings & Payments
   * ~~Show Promo Code~~
   * ~~Search Bookings~~
@@ -332,6 +332,27 @@ tourcmsApiService.showTourDatesDeals({
     });
 ```
 
+
+#### [Show Departure](http://www.tourcms.com/support/api/mp/tour_datesprices_dep_manage_show.php)
+Show a departure, designed for managing dates and prices rather than displaying to customers. Includes the loaded rates, spaces, special offer details, bookings etc.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+```js
+tourcmsApiService.showDeparture({
+      channelId: 3930,
+      tourId: 1,
+      departureId: 8117
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
 
 #### [Check Tour Availability](http://www.tourcms.com/support/api/mp/tour_checkavail.php)
 Check availability for a specific date and number of people on a specific tour.

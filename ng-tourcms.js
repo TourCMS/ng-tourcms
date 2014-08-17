@@ -360,6 +360,15 @@
 
                                 return makeRequest(a);
         },
+        showDeparture: function(a) {
+
+                              if(typeof a.channelId === 'undefined')
+                                a.channelId = channelId;
+
+                              a.path = '/c/tour/datesprices/dep/manage/show.xml?id=' + a.tourId + '&departure_id=' + a.departureId;
+
+                              return makeRequest(a);
+        },
         showPromo: function(a) {
 
                               // Channel ID
