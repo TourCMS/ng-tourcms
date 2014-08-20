@@ -369,6 +369,22 @@
 
                               return makeRequest(a);
         },
+        updateDeparture: function(a) { 
+
+                              if(typeof a.channelId === 'undefined')
+                                a.channelId = channelId;
+
+                              a.postData = toDom(a.departure, 'departure');
+
+                              console.log(a.postData);
+
+                              a.path = '/c/tour/datesprices/dep/manage/update.xml';
+
+                              a.verb = 'POST';
+
+                              return makeRequest(a);
+
+        },
         showPromo: function(a) {
 
                               // Channel ID

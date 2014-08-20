@@ -29,7 +29,7 @@ TODO:
   * Managing dates and prices externally
     * Search raw departures
     * Create new departure
-    * Update departure
+    * ~~Update departure~~
     * Delete departure
     * ~~Show departure~~
 * Bookings & Payments
@@ -343,6 +343,50 @@ tourcmsApiService.showDeparture({
       channelId: 3930,
       tourId: 1,
       departureId: 8117
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
+#### [Update Departure](http://www.tourcms.com/support/api/mp/tour_datesprices_dep_manage_update.php)
+Update a departure.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service (see above).
+
+If X2JS is being used, departure data can be provided as an object
+```js
+tourcmsApiService.updateDeparture({
+      channelId: 3930,
+      departure: {
+        tour_id: 1,
+        departure_id: 1234,
+        special_offer: {
+          offer_price: 45,
+          offer_note: "Early booking discount"
+        }
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+If X2JS is not being used, tour data must be provided as an XML string
+```js
+tourcmsApiService.updateDeparture({
+      channelId: 3930,
+      tour: '<departure> ... <special_offer><offer_price>45</offer_price></special_offer></departure>'
     })
     .success(function(data, status) {
       console.log('Success');
