@@ -44,7 +44,7 @@ TODO:
   * Update Booking
   * ~~Add note to Booking~~
   * ~~Cancel Booking~~
-  * Store Payment
+  * ~~Store Payment~~
   * Record Failed Payment
   * Spreedly Payment
 * Customers & Enquiries
