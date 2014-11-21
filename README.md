@@ -80,21 +80,36 @@ Typical Tour Operator configuration:
 
 ```js
 tourcmsApiService.configure({
-      apiKey: 'Your API Key',
-      channelId: 'Your Channel ID'
+      private_key: 'Your API Key',
+      channel_id: 'Your Channel ID'
     });
 ```
+
+Also supports multiple channel credentials, passed as an array
+
+```js
+tourcmsApiService.configure([
+      {
+      private_key: 'Your API Key',
+      channel_id: 'Your Channel ID'
+      },
+      {
+      private_key: 'Your second API Key',
+      channel_id: 'Your second Channel ID'
+      }
+    ]);
+```
+
 
 Typical Marketplace Agent configuration (working with multiple Channels):
 
 
 ```js
 tourcmsApiService.configure({
-      apiKey: 'Your API Key',
-      marketplaceId: 'Your Marketplace ID'
+      private_key: 'Your API Key',
+      marketplace_id: 'Your Marketplace ID'
     });
 ```
-
 
 ## API methods
 
