@@ -151,13 +151,13 @@
             var deferred = $q.defer();
 
             // Ensure we have an array of settings
-            a.channels = [].concat(a.channels);
+            a = [].concat(a);
 
-            channels = a.channels;
+            channels = a;
 
             index = 0;
 
-            angular.forEach(a.channels, function(chan, ind) {
+            angular.forEach(a, function(chan, ind) {
               if(chan.channel_id == a.defaultChannel) {
                 index = ind;
               }
@@ -178,7 +178,7 @@
           if(typeof a.private_key !== 'undefined') {
             apiKey = a.private_key;
           }
-          if(typeof a.marketplaceId !== 'undefined') {
+          if(typeof a.marketplace_id !== 'undefined') {
             marketplaceId = a.marketplace_id;
           }
           if(typeof a.channel_id !== 'undefined') {
@@ -740,7 +740,7 @@
                             		var barcodeText = doc.createTextNode(a.voucherString);
                                 barcodeData.appendChild(barcodeText);
                                 voucherData.appendChild(barcodeData);
-                                
+
                                 // create the <barcode_data> node
                                 if(typeof a.wideDates != 'undefined') {
                                   var wideDateData = doc.createElement("wide_dates"), text;
