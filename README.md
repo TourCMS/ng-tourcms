@@ -113,9 +113,9 @@ tourcmsApiService.configure({
 
 ## Broadcast messages
 
-In addition to returning error messages provided by TourCMS directly, the app will also broadcast messages to rootScope in certain situations. All messages are prefaced 'ng-tourcms:'. The current list is:
+In addition to returning error messages provided by TourCMS directly, the app will also broadcast messages to rootScope in certain situations. All messages are prefaced `ng-tourcms:`. The current list is:
 
-* 'ng-tourcms:FAIL_SESSION_EXPIRED_IDLE' - Transmitted whenever an API call is rejected due to a timeout on the users login
+* `ng-tourcms:FAIL_SESSION_EXPIRED_IDLE` - Transmitted whenever an API call is rejected due to a timeout on the users login
 
 Currently requires X2JS (see "Dependencies / Requirements" above).
 
