@@ -1,6 +1,6 @@
 (function(window, angular, Math) {
   angular.module('tourcms.ng-tourcms', [])
- .factory('tourcmsApiService', function($http, $q) {
+ .factory('tourcmsApiService', function($rootScope, $http, $q) {
 
     var baseUrl = 'https://api.tourcms.com';
 
@@ -59,9 +59,18 @@
                   'Content-type': 'text/xml;charset="utf-8"'
                 },
                 transformResponse: function(data) {
+                  // If we have X2JS running
                   if(typeof X2JS !== 'undefined') {
+
+                    // Convert response to JSON
                     var x2js = new X2JS();
                     var json = x2js.xml_str2json( data );
+
+                    // If session has expired, send a message
+                    if((typeof json.response.error !== 'undefined') && (json.response.error == "FAIL_SESSION_EXPIRED_IDLE")) {
+                      $rootScope.$broadcast('ng-tourcms:FAIL_SESSION_EXPIRED_IDLE');
+                    }
+
                     return json;
                   } else {
                     return data;
