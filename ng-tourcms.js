@@ -30,8 +30,6 @@
       if(typeof a.verb == "undefined")
         a.verb = 'GET';
 
-      //console.log(a.postData);
-
       if(typeof a.postData == "undefined") {
         var apiParams = "";
       } else {
@@ -69,6 +67,16 @@
                     // If session has expired, send a message
                     if((typeof json.response.error !== 'undefined') && (json.response.error == "FAIL_SESSION_EXPIRED_IDLE")) {
                       $rootScope.$broadcast('ng-tourcms:FAIL_SESSION_EXPIRED_IDLE');
+                    }
+
+                    // If session has expired, send a message
+                    if((typeof json.response.error !== 'undefined') && (json.response.error == "FAIL_SESSION_EXPIRED_DURATION")) {
+                      $rootScope.$broadcast('ng-tourcms:FAIL_SESSION_EXPIRED_DURATION');
+                    }
+
+                    // If fail sig, send a message
+                    if((typeof json.response.error !== 'undefined') && (json.response.error == "FAIL_SIG")) {
+                      $rootScope.$broadcast('ng-tourcms:FAIL_SIG');
                     }
 
                     return json;
@@ -181,8 +189,6 @@
         },
         configureDefaultChannel: function(a) {
           var deferred = $q.defer();
-          console.log('configuring default');
-          console.log(a);
 
           if(typeof a.private_key !== 'undefined') {
             apiKey = a.private_key;
@@ -558,8 +564,6 @@
                                 // Set post data
                                 a.postData = bookingInfo;
 
-                                console.log(bookingInfo);
-
                                 a.path = '/c/booking/new/commit.xml';
 
                                 a.verb = 'POST';
@@ -731,7 +735,6 @@
         },
         // Vouchers
         searchVouchers: function(a) {
-                              console.log(channelId);
                               // Channel ID
                                 // If undefined, use object level channelId
                                 if(typeof a.channelId === "undefined")
@@ -790,14 +793,8 @@
                                 var data = [].concat(result.data.response.booking);
 
                                 angular.forEach(data, function(booking) {
-                                //  console.log(booking);
-                                //  console.log('stuff');
-                                //  console.log(booking.booking_id);
-                                //  console.log(a.bookingId);
                                   if(booking.booking_id == a.bookingId)
                                     deferred.resolve(booking.channel_id);
-                                  else
-                                    console.log('nope');
                                 });
 
                               }
@@ -865,13 +862,36 @@
 
                               a.postData = toDom(a.customer, 'customer');
 
-                              console.log(a.postData);
-
                               a.path = '/c/customer/update.xml';
 
                               a.verb = 'POST';
 
                               return makeRequest(a);
+
+        },
+        // Agents
+        searchAgents: function(a) {
+
+                    if(typeof a === 'undefined')
+                      a = {};
+
+                    // Convert/set search params
+                    // If undefined
+                    if(typeof a.qs === "undefined") {
+                      a.qs = {};
+                    }
+
+                    a.qs = toQueryString(a.qs);
+
+                    // Channel ID
+                    // If undefined, use object level channelId
+                    if(typeof a.channelId === "undefined")
+                      a.channelId = channelId;
+
+                    // Set API path
+                    a.path = '/c/agents/search.xml?' + a.qs;
+
+                    return makeRequest(a);
 
         },
         // Suppliers (Internal TourCMS)
