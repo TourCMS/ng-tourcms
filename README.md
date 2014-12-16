@@ -4,7 +4,7 @@ AngularJS service for accessing the [TourCMS](http://www.tourcms.com) [API](http
 
 ## Status
 
-Fairly early code. Not all API methods implemented.
+Fairly stable, see Issues for more detail. Not all API methods implemented.
 
 TODO:
 
@@ -44,16 +44,18 @@ TODO:
   * Update Booking
   * ~~Add note to Booking~~
   * ~~Cancel Booking~~
-  * Store Payment
+  * ~~Store Payment~~
   * Record Failed Payment
   * Spreedly Payment
 * Customers & Enquiries
-  * Create enquiry
-  * Search enquiries
+  * Create Enquiry
+  * Search Enquiries
   * ~~Show customer~~
-  * Update customer
+  * Update Customer
   * Customer login search
-* Internal Supplier APIs
+* ~~Agents~~
+  * ~~Search Agents~~
+* ~~Internal Supplier APIs~~
   * ~~Show Supplier~~
 
 
@@ -70,31 +72,58 @@ intended for use developing with AngularJS in native wrapper environments such a
 
 ## Installation / Configuration
 
-Ensure `ng-tours.js` is included in your project, `tourcms.ng-tourcms` is required by your module and `tourcmsApiService` is passed wherever it will be used.
+Ensure `ng-tourcms.js` is included in your project, `tourcms.ng-tourcms` is required by your module and `tourcmsApiService` is injected wherever it will be used.
 
-Call the `configure` method on `tourcmsApiService` to set your API parameters, `channelID` can alternatively be passed when
-making API calls, those accessing the API as an Agent, working with multiple Channels will likely work in that way,
+Call the `configure` method on `tourcmsApiService` to set your API parameters. `channelID` can alternatively be passed when
+making API calls; those accessing the API as an Agent and thus working with multiple Channels will likely work in that way
 rather than configuring here.
 
 Typical Tour Operator configuration:
 
 ```js
 tourcmsApiService.configure({
-      apiKey: 'Your API Key',
-      channelId: 'Your Channel ID'
+      private_key: 'Your API Key',
+      channel_id: 'Your Channel ID'
     });
 ```
+
+Also supports multiple channel credentials, passed as an array
+
+```js
+tourcmsApiService.configure([
+      {
+      private_key: 'Your API Key',
+      channel_id: 'Your Channel ID'
+      },
+      {
+      private_key: 'Your second API Key',
+      channel_id: 'Your second Channel ID'
+      }
+    ]);
+```
+
 
 Typical Marketplace Agent configuration (working with multiple Channels):
 
 
 ```js
 tourcmsApiService.configure({
-      apiKey: 'Your API Key',
-      marketplaceId: 'Your Marketplace ID'
+      private_key: 'Your API Key',
+      marketplace_id: 'Your Marketplace ID'
     });
 ```
 
+## Broadcast messages
+
+In addition to returning error messages provided by TourCMS directly, the app will also broadcast messages to rootScope in certain situations. All messages are prefaced `ng-tourcms:`.
+
+The current list is:
+
+* `ng-tourcms:FAIL_SESSION_EXPIRED_IDLE` - Transmitted whenever an API call is rejected due to a timeout on the users API credentials
+* `ng-tourcms:FAIL_SESSION_EXPIRED_DURATION` - Transmitted whenever an API call is rejected due to an expiry of the users API credentials
+* `ng-tourcms:FAIL_SIG` - Transmitted when a "FAIL_SIG" response is encountered, likely due to incorrect API credentials
+
+Currently requires X2JS (see [Dependencies / Requirements](#dependencies--requirements) above).
 
 ## API methods
 
@@ -157,7 +186,7 @@ tourcmsApiService.listChannels()
 Show details on a specific channel.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 ```js
 tourcmsApiService.showChannel({channelId: 3930})
     .success(function(data, status) {
@@ -195,7 +224,7 @@ tourcmsApiService.ChannelPerformance()
 Search Tours.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 ```js
 tourcmsApiService.searchTours({
       channelId: 3930,
@@ -219,7 +248,7 @@ tourcmsApiService.searchTours({
 List Tours.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 ```js
 tourcmsApiService.listTours({
       channelId: 3930
@@ -257,7 +286,7 @@ tourcmsApiService.listTours({
 Show details of a specific Tour.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 ```js
 tourcmsApiService.showTour({
       channelId: 3930,
@@ -297,7 +326,7 @@ tourcmsApiService.showTour({
 List the dates available for a specific tour.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 ```js
 tourcmsApiService.showTourDatesDeals({
       channelId: 3930,
@@ -337,7 +366,7 @@ tourcmsApiService.showTourDatesDeals({
 Show a departure, designed for managing dates and prices rather than displaying to customers. Includes the loaded rates, spaces, special offer details, bookings etc.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 ```js
 tourcmsApiService.showDeparture({
       channelId: 3930,
@@ -358,7 +387,7 @@ tourcmsApiService.showDeparture({
 Update a departure.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 
 If X2JS is being used, departure data can be provided as an object
 ```js
@@ -402,7 +431,7 @@ tourcmsApiService.updateDeparture({
 Check availability for a specific date and number of people on a specific tour.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 
  The following example checks availability for 2 people
  on the first rate (e.g. usually "2 Adults") on the 30th Jan 2015 for Tour ID 1 on Channel 3930.
@@ -429,7 +458,7 @@ tourcmsApiService.checkTourAvailability({
 Update the main details on a Tour, currently supports updating the Tour URL only.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 
 If X2JS is being used, tour data can be provided as an object
 ```js
@@ -472,7 +501,7 @@ for a certain channel, and if so, whether a membership number or similar is requ
 to verify the promo.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 
  The following example tries to show promo code 'TENPERCENT' on Channel 3930.
 ```js
@@ -496,7 +525,7 @@ tourcmsApiService.showPromo({
 Search for bookings, view basic details about each.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 
 The following example searches for active bookings made in June 2014 on Channel 3930.
 ```js
@@ -520,7 +549,7 @@ tourcmsApiService.searchBookings({
 #### [Show Booking](http://www.tourcms.com/support/api/mp/booking_show.php)
 Get details on a specific Booking.
 
-If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
+If a Channel ID is not provided, the function will use the Channel ID configured on the service.
 
 The following example tries to show Booking 3770 on Channel 3930.
 ```js
@@ -541,7 +570,7 @@ tourcmsApiService.showBooking({
 #### [Start New Booking](http://www.tourcms.com/support/api/mp/booking_start_new.php)
 Create a temporary booking, holding stock.
 
-If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
+If a Channel ID is not provided, the function will use the Channel ID configured on the service.
 
 If X2JS is being used, booking data can be provided as an object
 ```js
@@ -602,7 +631,7 @@ Delete a temporary booking, releasing stock.
 
 If a booking has been committed (see below) it can no longer be deleted, instead cancel it using the "Cancel Booking" method.
 
-If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
+If a Channel ID is not provided, the function will use the Channel ID configured on the service.
 
 ```js
 tourcmsApiService.deleteBooking({
@@ -622,7 +651,7 @@ tourcmsApiService.deleteBooking({
 #### [Commit Booking](http://www.tourcms.com/support/api/mp/booking_commit_new.php)
 Convert a temporary booking into a proper booking.
 
-If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
+If a Channel ID is not provided, the function will use the Channel ID configured on the service.
 
 If X2JS is being used, booking data can be provided as an object
 ```js
@@ -660,7 +689,7 @@ tourcmsApiService.commitBooking({
 #### [Cancel Booking](http://www.tourcms.com/support/api/mp/booking_cancel.php)
 Cancel a committed booking.
 
-If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
+If a Channel ID is not provided, the function will use the Channel ID configured on the service.
 
 ```js
 tourcmsApiService.cancelBooking({
@@ -683,7 +712,7 @@ Add a note to a booking.
 
 There are multiple note types that can be used, see the API documentation linked above for details.
 
-If a Channel ID is not provided, the function will use the Channel ID configured on the service (see above).
+If a Channel ID is not provided, the function will use the Channel ID configured on the service.
 
 ```js
 tourcmsApiService.addNoteToBooking({
@@ -706,7 +735,7 @@ tourcmsApiService.addNoteToBooking({
 Provide the barcode data from a TourCMS (or OTA) voucher and receive a list of matching components.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 
  NB: At the time of writing the text displayed under the barcode on TourCMS vouchers is __not__
  the same as the text contained within the barcode. For testing purposes grab the _barcode_data_ from
@@ -731,7 +760,7 @@ tourcmsApiService.searchVouchers({
 Redeem (Check in) a particular component using a key obtained from "Search Vouchers".
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 
 ```js
 tourcmsApiService.redeemVoucher({
@@ -753,7 +782,7 @@ tourcmsApiService.redeemVoucher({
 Get details on a specific customer.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 ```js
 tourcmsApiService.showCustomer({
       channelId: 3930,
@@ -769,12 +798,36 @@ tourcmsApiService.showCustomer({
     });
 ```
 
+### Travel Agents
+#### [Search Agents](http://www.tourcms.com/support/api/mp/agent_search.php)
+Get a list of Travel Agents.
+
+If a Channel ID is not provided, the function will use the Channel ID
+configured on the service.
+```js
+tourcmsApiService.searchAgents({
+  channelId: 3930,
+  qs: {
+    order: 'toprecent',
+    filter: 'staff_ui'
+  }
+})
+.success(function(data, status) {
+  console.log('Success');
+  console.log(data);
+})
+.error(function(data, status) {
+  console.log(data || "Request failed");
+  console.log(status);
+});
+```
+
 ### Internal Supplier APIs
 #### [Show Supplier](http://www.tourcms.com/support/api/mp/supplier_show.php)
 Get details on a specific Supplier.
 
 If a Channel ID is not provided, the function will use the Channel ID
- configured on the service (see above).
+ configured on the service.
 ```js
 tourcmsApiService.showBooking({
       channelId: 3930,
