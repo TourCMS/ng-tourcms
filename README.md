@@ -2,62 +2,50 @@
 
 AngularJS service for accessing the [TourCMS](http://www.tourcms.com) [API](http://www.tourcms.com/support/api/mp/).
 
+## Table of Contents
+
+* [Status](#status)
+* [Dependencies / Requirements](#dependencies--requirements)
+* [Installation / Configuration](#installation--configuration)
+* [Broadcast messages](#broadcast-messages)
+* [API method wrappers](#api-methods)
+  * [General/ Housekeeping APIs](#general-housekeeping-apis)
+    * [API Rate Limit Status](#api-rate-limit-status)
+    * [Generic API request](#generic-api-request)
+  * [Channel (Operator / Supplier) APIs](#channel-operator--supplier-apis)
+    * [List Channels](#list-channels)
+    * [Show Channel](#show-channel)
+    * [Channel Performance](#channel-performance)
+  * [Tour (Product) APIs](#tour-product-apis)
+    * [Search Tours](#search-tours)
+    * [List Tours](#list-tours)
+    * [Show Tour](#show-tour)
+    * [Show Tour Dates & Deals](#show-tour-dates-and-deals)
+    * [Show Departure](#show-departure)
+    * [Update Departure](#update-departure)
+    * [Check Tour Availability](#check-tour-availability)
+    * [Update Tour](#update-tour)
+    * [Show Promo Code](#show-promo-code)
+  * [Booking APIs](#booking-apis)
+    * [Search Bookings](#search-bookings)
+    * [Show Booking](#show-booking)
+    * [Start New Booking](#start-new-booking)
+    * [Delete Booking](#delete-booking)
+    * [Commit Booking](#commit-booking)
+    * [Cancel Booking](#cancel-booking)
+    * [Add Note to Booking](#add-note-to-booking)
+    * [Search Vouchers](#search-vouchers)
+    * [Redeem Voucher](#redeem-voucher)
+  * [Customer / Enquiry APIs](#customer--enquiry-apis)
+    * [Show Customer](#show-customer)
+  * [Travel Agents](#travel-agents)
+    * [Search Agents](#search-agents)
+  * [Internal Supplier APIs](#internal-supplier-apis)
+    * [Show Supplier](#show-supplier)
+
 ## Status
 
 Fairly stable, see Issues for more detail. Not all API methods implemented.
-
-TODO:
-
-* ~~General / Housekeeping APIs~~
-  * ~~API Rate Limit Status~~
-* ~~Channel (Operator) APIs~~
-  * ~~List Channels~~
-  * ~~Show Channel~~
-  * ~~Channel Performance~~
-* Tour (Product) APIs
-  * ~~Search Tours~~
-  * ~~List Tours~~
-  * ~~Show Tour~~
-  * ~~Show Tour Dates and Deals~~
-  * ~~Check Tour Availability~~
-  * Search Hotels by Specific Availability
-  * ~~Update Tour~~
-  * Bulk exporting
-    * Show Tour Departures
-    * List Tour Locations
-    * List Tour Images
-  * Managing dates and prices externally
-    * Search raw departures
-    * Create new departure
-    * ~~Update departure~~
-    * Delete departure
-    * ~~Show departure~~
-* Bookings & Payments
-  * ~~Show Promo Code~~
-  * ~~Search Bookings~~
-  * ~~Show Booking~~
-  * ~~Search Vouchers~~
-  * ~~Redeem Voucher~~
-  * ~~Start New Booking~~
-  * ~~Delete Booking~~
-  * ~~Commit Booking~~
-  * Update Booking
-  * ~~Add note to Booking~~
-  * ~~Cancel Booking~~
-  * ~~Store Payment~~
-  * Record Failed Payment
-  * Spreedly Payment
-* Customers & Enquiries
-  * Create Enquiry
-  * Search Enquiries
-  * ~~Show customer~~
-  * Update Customer
-  * Customer login search
-* ~~Agents~~
-  * ~~Search Agents~~
-* ~~Internal Supplier APIs~~
-  * ~~Show Supplier~~
-
 
 ## Dependencies / Requirements
 
@@ -125,7 +113,7 @@ The current list is:
 
 Currently requires X2JS (see [Dependencies / Requirements](#dependencies--requirements) above).
 
-## API methods
+## API method wrappers
 
 ### General/ Housekeeping APIs
 
