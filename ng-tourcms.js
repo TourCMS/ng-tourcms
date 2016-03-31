@@ -670,10 +670,103 @@
                                 }
 
 
+                                // Credit card fee type
+                                if(typeof a.creditcardFeeType !== 'undefined') {
+                                  // create the <creditcard_fee_type> node
+                                    var creditcardFeeTypeData = doc.createElement("creditcard_fee_type"), text;
+                                    var creditcardFeeTypeText = doc.createTextNode(a.creditcardFeeType);
+                                    creditcardFeeTypeData.appendChild(creditcardFeeTypeText);
+
+                                    // append to document
+                                    paymentData.appendChild(creditcardFeeTypeData);
+                                }
+
+
                                 doc.appendChild(paymentData);
                                 a.postData = paymentData;
 
                                 a.path = '/c/booking/payment/new.xml';
+
+                                a.verb = 'POST';
+
+                                return makeRequest(a);
+
+        },
+        spreedlyCreatePayment: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                // creates a Document object with root "<booking>"
+                                var doc = document.implementation.createDocument(null, null, null);
+                                var paymentData = doc.createElement("payment"), text;
+
+                                // create the <booking_id> node
+                                  var bookingIdData = doc.createElement("booking_id"), text;
+                                  var bookingIdText = doc.createTextNode(a.bookingId);
+                                  bookingIdData.appendChild(bookingIdText);
+
+                                  // append to document
+                                  paymentData.appendChild(bookingIdData);
+
+                                // Create the <payment_amount> node
+                                  var paymentValueData = doc.createElement("payment_value"), text;
+                                  var paymentValueText = doc.createTextNode(a.paymentValue);
+                                  paymentValueData.appendChild(paymentValueText);
+
+                                  // append to document
+                                  paymentData.appendChild(paymentValueData);
+
+                                  // Spreedly Token
+                                    // create the <spreedly_payment_method> node
+                                    var spreedlyPaymentMethodData = doc.createElement("spreedly_payment_method"), text;
+                                    var spreedlyPaymentMethodText = doc.createTextNode(a.spreedlyPaymentMethod);
+                                    spreedlyPaymentMethodData.appendChild(spreedlyPaymentMethodText);
+
+                                    // append to document
+                                    paymentData.appendChild(spreedlyPaymentMethodData);
+
+
+                                // Payment currency
+                                if(typeof a.currency !== 'undefined') {
+                                  // create the <payment_currency> node
+                                    var paymentCurrencyData = doc.createElement("payment_currency"), text;
+                                    var paymentCurrencyText = doc.createTextNode(a.currency);
+                                    paymentCurrencyData.appendChild(paymentCurrencyText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentCurrencyData);
+                                }
+
+                                // Payment type
+                                if(typeof a.paymentType !== 'undefined') {
+                                  // create the <payment_type> node
+                                    var paymentTypeData = doc.createElement("payment_type"), text;
+                                    var paymentTypeText = doc.createTextNode(a.paymentType);
+                                    paymentTypeData.appendChild(paymentTypeText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentTypeData);
+                                }
+
+                                // Credit card fee type
+                                if(typeof a.creditcardFeeType !== 'undefined') {
+                                  // create the <creditcard_fee_type> node
+                                    var creditcardFeeTypeData = doc.createElement("creditcard_fee_type"), text;
+                                    var creditcardFeeTypeText = doc.createTextNode(a.creditcardFeeType);
+                                    creditcardFeeTypeData.appendChild(creditcardFeeTypeText);
+
+                                    // append to document
+                                    paymentData.appendChild(creditcardFeeTypeData);
+                                }
+
+
+                                doc.appendChild(paymentData);
+                                a.postData = paymentData;
+
+                                a.path = '/c/booking/payment/spreedly/new.xml';
 
                                 a.verb = 'POST';
 
