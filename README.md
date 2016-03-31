@@ -36,6 +36,9 @@ AngularJS service for accessing the [TourCMS](http://www.tourcms.com) [API](http
     * [Add Note to Booking](#add-note-to-booking)
     * [Search Vouchers](#search-vouchers)
     * [Redeem Voucher](#redeem-voucher)
+  * [Payment APIs](#payment-apis)
+    * [Create Payment](#create-payment)
+    * [Spreedly Create Payment](#spreedly-create-payment)
   * [Customer / Enquiry APIs](#customer--enquiry-apis)
     * [Show Customer](#show-customer)
   * [Travel Agents](#travel-agents)
@@ -765,6 +768,60 @@ tourcmsApiService.redeemVoucher({
       console.log(status);
     });
 ```
+### Payment APIs
+### [Create Payment](http://www.tourcms.com/support/api/mp/payment_create.php)
+Store details of a payment in TourCMS.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service.
+
+ ```js
+ tourcmsApiService.createPayment({
+       channelId: 3930,
+       bookingId: 1234,
+       paymentValue: 100,
+       creditcardFeeType: 0,
+       paymentType: "Amex"
+       currency: 'GBP'
+     })
+     .success(function(data, status) {
+       console.log('Success');
+       console.log(data);
+     })
+     .error(function(data, status) {
+       console.log(data || "Request failed");
+       console.log(status);
+     });
+ ```
+
+### [Spreedly Create Payment](http://www.tourcms.com/support/api/mp/spreedly_payment_create.php)
+Specialised version of "Create Payment" for those using TourCMS [Spreedly integration](http://www.tourcms.com/support/payments/spreedly.php).
+
+Accepts a [Spreedly payment method token](https://docs.spreedly.com/basics/payment-method/), processes the payment via Spreedly and in the case of a successful payment, commits the booking and records details of the payment in TourCMS.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service.
+
+ ```js
+ tourcmsApiService.createPayment({
+       spreedlyPaymentMethod: 'SPREEDLY_PAYMENT_METHOD_TOKEN'
+       channelId: 3930,
+       bookingId: 1234,
+       paymentValue: 100,
+       creditcardFeeType: 0,
+       paymentType: "Amex"
+       currency: 'GBP'
+     })
+     .success(function(data, status) {
+       console.log('Success');
+       console.log(data);
+     })
+     .error(function(data, status) {
+       console.log(data || "Request failed");
+       console.log(status);
+     });
+ ```
+
 ### Customer / Enquiry APIs
 #### [Show Customer](http://www.tourcms.com/support/api/mp/customer_show.php)
 Get details on a specific customer.
