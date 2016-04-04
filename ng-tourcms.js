@@ -999,6 +999,11 @@
 
                                 return makeRequest(a);
         },
+        // Get a TourCMS function date
+        getTourcmsDate: function(a){
+          //a = a || new Date();
+          return toTourcmsDate(a);
+        },
         // Make a generic API request
         genericRequest: function(a) {
 
