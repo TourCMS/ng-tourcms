@@ -34,7 +34,7 @@
         var apiParams = "";
       } else {
         var s = new XMLSerializer();
-        var apiParams = s.serializeToString(a.postData);
+        var apiParams = '<?xml version="1.0"?>' + "\n" + s.serializeToString(a.postData);
       }
 
       // Get the current time
@@ -42,7 +42,6 @@
 
       // Generate the signature
       var signature = generateSignature(a.path, a.channelId, a.verb, outboundTime, rApiKey);
-
       // Full URL to call
       var apiUrl = baseUrl + a.path;
 
@@ -119,6 +118,11 @@
       return date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
     }
 
+    var toDateObject = function(string) {
+      var dateBits = string.split('-');
+      return new Date(dateBits[0], dateBits[1] - 1, dateBits[2]);
+    }
+
     // Convert an object to a Query String
     var toQueryString = function(obj) {
     var parts = [];
@@ -164,18 +168,23 @@
     // Return our singleton
     return {
         // Configure this service
-        configure: function(a) {
+        configure: function(a, defaultChannel) {
             var deferred = $q.defer();
 
             // Ensure we have an array of settings
             a = [].concat(a);
 
+            // Ensure we have a default channel variable
+            defaultChannel = defaultChannel || 0;
+
+            // Store the channels globally
             channels = a;
 
+            // Loop through and set the default channel
             index = 0;
 
             angular.forEach(a, function(chan, ind) {
-              if(chan.channel_id == a.defaultChannel) {
+              if(chan.channel_id == defaultChannel) {
                 index = ind;
               }
             });
@@ -247,6 +256,19 @@
                                 return makeRequest(a);
         },
         // Tours
+        listProductFilters: function(a) {
+                                if(typeof a === 'undefined')
+                                  a = {};
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                a.path = '/c/tours/filters.xml';
+
+                                return makeRequest(a);
+        },
         searchTours: function(a) {
 
                                 if(typeof a === 'undefined')
@@ -258,7 +280,7 @@
                                   a.qs = {};
                                 }
 
-                                a.qs = toQueryString(a.qs);
+                                var qs = toQueryString(a.qs);
 
                               // Channel ID
                                 // If undefined, use object level channelId
@@ -267,9 +289,9 @@
 
                               // Set API path
                                 if(a.channelId==0)
-                                  a.path = '/p/tours/search.xml?' + a.qs;
+                                  a.path = '/p/tours/search.xml?' + qs;
                                 else
-                                  a.path = '/c/tours/search.xml?' + a.qs;
+                                  a.path = '/c/tours/search.xml?' + qs;
 
                                 return makeRequest(a);
         },
@@ -420,6 +442,24 @@
 
                                 return makeRequest(a);
         },
+        checkOptionAvailability: function(a) {
+
+                                // If QS undefined
+                                if(typeof a.qs === "undefined") {
+                                    a.qs = {};
+                                }
+
+                                a.querystring = toQueryString(a.qs);
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                a.path = '/c/booking/options/checkavail.xml?' + a.querystring;
+
+                                return makeRequest(a);
+        },
         getDeparturesOverview: function(a) {
 
                               if(typeof a.channelId === 'undefined')
@@ -514,6 +554,31 @@
                                   a.channelId = channelId;
 
                                 a.path = '/c/booking/show.xml?booking_id=' + a.bookingId;
+
+                                return makeRequest(a);
+        },
+        showBookingTotals: function(a) {
+                                if(typeof a === 'undefined')
+                                  a = {};
+
+                              // Query String
+                                // If QS undefined
+                                if(typeof a.qs === "undefined") {
+                                    a.qs = {};
+                                }
+                                // Convert to string
+                                a.qs = toQueryString(a.qs);
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                // Set API path
+                                  if(a.channelId==0)
+                                    a.path = '/p/bookings/totals.xml?' + a.qs;
+                                  else
+                                    a.path = '/c/bookings/totals.xml?' + a.qs;
 
                                 return makeRequest(a);
         },
@@ -669,6 +734,17 @@
                                     paymentData.appendChild(paymentTypeData);
                                 }
 
+                                // Payment note
+                                if(typeof a.paymentNote !== 'undefined') {
+                                  // create the <payment_type> node
+                                    var paymentNoteData = doc.createElement("payment_note"), text;
+                                    var paymentNoteText = doc.createTextNode(a.paymentNote);
+                                    paymentNoteData.appendChild(paymentNoteText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentNoteData);
+                                }
+
 
                                 // Credit card fee type
                                 if(typeof a.creditcardFeeType !== 'undefined') {
@@ -679,6 +755,17 @@
 
                                     // append to document
                                     paymentData.appendChild(creditcardFeeTypeData);
+                                }
+
+                                // Gateway Mode
+                                if(typeof a.gatewayMode !== 'undefined') {
+                                  // create the <payment_currency> node
+                                    var gatewayModeData = doc.createElement("gateway_mode"), text;
+                                    var gatewayModeText = doc.createTextNode(a.gatewayMode);
+                                    gatewayModeData.appendChild(gatewayModeText);
+
+                                    // append to document
+                                    paymentData.appendChild(gatewayModeData);
                                 }
 
 
@@ -729,38 +816,60 @@
                                     paymentData.appendChild(spreedlyPaymentMethodData);
 
 
-                                // Payment currency
-                                if(typeof a.currency !== 'undefined') {
-                                  // create the <payment_currency> node
-                                    var paymentCurrencyData = doc.createElement("payment_currency"), text;
-                                    var paymentCurrencyText = doc.createTextNode(a.currency);
-                                    paymentCurrencyData.appendChild(paymentCurrencyText);
+                                  // Payment currency
+                                  if(typeof a.currency !== 'undefined') {
+                                    // create the <payment_currency> node
+                                      var paymentCurrencyData = doc.createElement("payment_currency"), text;
+                                      var paymentCurrencyText = doc.createTextNode(a.currency);
+                                      paymentCurrencyData.appendChild(paymentCurrencyText);
 
-                                    // append to document
-                                    paymentData.appendChild(paymentCurrencyData);
-                                }
+                                      // append to document
+                                      paymentData.appendChild(paymentCurrencyData);
+                                  }
 
-                                // Payment type
-                                if(typeof a.paymentType !== 'undefined') {
-                                  // create the <payment_type> node
-                                    var paymentTypeData = doc.createElement("payment_type"), text;
-                                    var paymentTypeText = doc.createTextNode(a.paymentType);
-                                    paymentTypeData.appendChild(paymentTypeText);
+                                  // Payment type
+                                  if(typeof a.paymentType !== 'undefined') {
+                                    // create the <payment_type> node
+                                      var paymentTypeData = doc.createElement("payment_type"), text;
+                                      var paymentTypeText = doc.createTextNode(a.paymentType);
+                                      paymentTypeData.appendChild(paymentTypeText);
 
-                                    // append to document
-                                    paymentData.appendChild(paymentTypeData);
-                                }
+                                      // append to document
+                                      paymentData.appendChild(paymentTypeData);
+                                  }
 
-                                // Credit card fee type
-                                if(typeof a.creditcardFeeType !== 'undefined') {
-                                  // create the <creditcard_fee_type> node
-                                    var creditcardFeeTypeData = doc.createElement("creditcard_fee_type"), text;
-                                    var creditcardFeeTypeText = doc.createTextNode(a.creditcardFeeType);
-                                    creditcardFeeTypeData.appendChild(creditcardFeeTypeText);
+                                  // Payment note
+                                  if(typeof a.paymentNote !== 'undefined') {
+                                    // create the <payment_type> node
+                                      var paymentNoteData = doc.createElement("payment_note"), text;
+                                      var paymentNoteText = doc.createTextNode(a.paymentNote);
+                                      paymentNoteData.appendChild(paymentNoteText);
 
-                                    // append to document
-                                    paymentData.appendChild(creditcardFeeTypeData);
-                                }
+                                      // append to document
+                                      paymentData.appendChild(paymentNoteData);
+                                  }
+
+                                  // Credit card fee type
+                                  if(typeof a.creditcardFeeType !== 'undefined') {
+                                    // create the <creditcard_fee_type> node
+                                      var creditcardFeeTypeData = doc.createElement("creditcard_fee_type"), text;
+                                      var creditcardFeeTypeText = doc.createTextNode(a.creditcardFeeType);
+                                      creditcardFeeTypeData.appendChild(creditcardFeeTypeText);
+
+                                      // append to document
+                                      paymentData.appendChild(creditcardFeeTypeData);
+                                  }
+
+                                  // Gateway Mode
+                                  if(typeof a.gatewayMode !== 'undefined') {
+                                    // create the <payment_currency> node
+                                      var gatewayModeData = doc.createElement("gateway_mode"), text;
+                                      var gatewayModeText = doc.createTextNode(a.gatewayMode);
+                                      gatewayModeData.appendChild(gatewayModeText);
+
+                                      // append to document
+                                      paymentData.appendChild(gatewayModeData);
+                                  }
 
 
                                 doc.appendChild(paymentData);
@@ -826,6 +935,108 @@
 
                                   return makeRequest(a);
         },
+        // Trigger booking email
+        sendBookingEmail: function(a) {
+                                // Channel ID
+                                  // If undefined, use object level channelId
+                                  if(typeof a.channelId === "undefined")
+                                    a.channelId = channelId;
+
+                                // Post data
+                                  // Convert string/object to DOM
+                                 a.postData = toDom(a.booking, 'booking');
+
+                                // Set API path
+                                  a.path = '/c/booking/email/send.xml';
+
+                                  a.verb = 'POST';
+
+                                  return makeRequest(a);
+        },
+        // Booking components
+        addBookingComponent: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                // Convert string/object to DOM
+                                var bookingInfo = toDom(a.booking, 'booking');
+
+                                // Set post data
+                                a.postData = bookingInfo;
+
+                                a.path = '/c/booking/component/new.xml';
+
+                                a.verb = 'POST';
+
+                                return makeRequest(a);
+
+        },
+        // Remove a component from a booking
+        removeBookingComponent: function(a) {
+
+                                // Channel ID
+                                  // If undefined, use object level channelId
+                                  if(typeof a.channelId === "undefined")
+                                    a.channelId = channelId;
+
+                                // Convert string/object to DOM
+                                  var bookingInfo = toDom(a.booking, 'booking');
+
+                                // Set post data
+                                  a.postData = bookingInfo;
+
+                                // Set API path
+                                  a.path = '/c/booking/component/delete.xml';
+
+                                  a.verb = 'POST';
+
+                                  return makeRequest(a);
+        },
+        // Edit a component on a booking
+        updateBookingComponent: function(a) {
+
+                                // Channel ID
+                                  // If undefined, use object level channelId
+                                  if(typeof a.channelId === "undefined")
+                                    a.channelId = channelId;
+
+                                // Convert string/object to DOM
+                                  var bookingInfo = toDom(a.booking, 'booking');
+
+                                // Set post data
+                                  a.postData = bookingInfo;
+
+                                // Set API path
+                                  a.path = '/c/booking/component/update.xml';
+
+                                  a.verb = 'POST';
+
+                                  return makeRequest(a);
+        },
+        // Update booking
+        updateBooking: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                // Convert string/object to DOM
+                                var bookingInfo = toDom(a.booking, 'booking');
+
+                                // Set post data
+                                a.postData = bookingInfo;
+
+                                a.path = '/c/booking/update.xml';
+
+                                a.verb = 'POST';
+
+                                return makeRequest(a);
+
+        },
         // Vouchers
         searchVouchers: function(a) {
                               // Channel ID
@@ -834,15 +1045,15 @@
                                   a.channelId = channelId;
 
                                 if(typeof a.voucherString === "undefined")
-                            		a.voucherString = '';
+                                a.voucherString = '';
 
-                            		// creates a Document object with root "<voucher>"
-                            		var doc = document.implementation.createDocument(null, null, null);
-                            		var voucherData = doc.createElement("voucher"), text;
+                                // creates a Document object with root "<voucher>"
+                                var doc = document.implementation.createDocument(null, null, null);
+                                var voucherData = doc.createElement("voucher"), text;
 
-                            		// create the <barcode_data> node
-                            		var barcodeData = doc.createElement("barcode_data"), text;
-                            		var barcodeText = doc.createTextNode(a.voucherString);
+                                // create the <barcode_data> node
+                                var barcodeData = doc.createElement("barcode_data"), text;
+                                var barcodeText = doc.createTextNode(a.voucherString);
                                 barcodeData.appendChild(barcodeText);
                                 voucherData.appendChild(barcodeData);
 
@@ -854,15 +1065,23 @@
                                   voucherData.appendChild(wideDateData);
                                 }
 
-                            		// append to document
-                            		doc.appendChild(voucherData);
-                            		a.postData = voucherData;
+                                // create the <barcode_data> node
+                                if(typeof a.superWideDates != 'undefined') {
+                                  var superWideDateData = doc.createElement("super_wide_dates"), text;
+                                  var superWideDateText = doc.createTextNode(a.superWideDates);
+                                  superWideDateData.appendChild(superWideDateText);
+                                  voucherData.appendChild(superWideDateData);
+                                }
+
+                                // append to document
+                                doc.appendChild(voucherData);
+                                a.postData = voucherData;
 
                                 // Set API path
-                            		if(a.channelId==0)
-                            			a.path = '/p/voucher/search.xml';
-                            		else
-                            			a.path = '/c/voucher/search.xml';
+                                if(a.channelId==0)
+                                  a.path = '/p/voucher/search.xml';
+                                else
+                                  a.path = '/c/voucher/search.xml';
 
                                 a.verb = 'POST';
 
@@ -873,8 +1092,8 @@
                             var deferred = $q.defer();
 
                             this.searchVouchers({
-                              voucherString: a.bookingId,
-                              wideDates: '1'
+                                voucherString: a.bookingId,
+                                superWideDates: '1'
                             })
                             .then(function(result) {
 
@@ -1003,6 +1222,13 @@
         getTourcmsDate: function(a){
           //a = a || new Date();
           return toTourcmsDate(a);
+        },
+        // Accepts a tourcms date string, returns a date object
+        getDateObject: function(a){
+          return toDateObject(a);
+        },
+        getDefaultChannel: function() {
+          return channelId;
         },
         // Make a generic API request
         genericRequest: function(a) {
