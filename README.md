@@ -24,6 +24,7 @@ AngularJS service for accessing the [TourCMS](http://www.tourcms.com) [API](http
     * [Show Departure](#show-departure)
     * [Update Departure](#update-departure)
     * [Check Tour Availability](#check-tour-availability)
+    * [Check Option Availability](#check-option-availability)
     * [Update Tour](#update-tour)
     * [Show Promo Code](#show-promo-code)
   * [Booking APIs](#booking-apis)
@@ -36,6 +37,10 @@ AngularJS service for accessing the [TourCMS](http://www.tourcms.com) [API](http
     * [Add Note to Booking](#add-note-to-booking)
     * [Search Vouchers](#search-vouchers)
     * [Redeem Voucher](#redeem-voucher)
+    * [Add booking component](#add-booking-component)
+    * [Remove booking component](#remove-booking-component)
+    * [Update booking component](#update-booking-component)
+    * [Send booking email](#send-booking-email)
   * [Payment APIs](#payment-apis)
     * [Create Payment](#create-payment)
     * [Spreedly Create Payment](#spreedly-create-payment)
@@ -431,8 +436,33 @@ tourcmsApiService.checkTourAvailability({
       channelId: 3930,
       qs: {
         id: 1,
-        date: '2015-30-01',
+        date: '2015-01-30',
         r1: 2
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
+#### [Check Option Availability](http://www.tourcms.com/support/api/mp/tour_checkavail_options.php)
+Check for Option availability.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service.
+
+If X2JS is being used, tour data can be provided as an object
+```js
+tourcmsApiService.checkOptionAvailability({
+      channelId: 3930,
+      qs: {
+        booking_id: 12662,
+        tour_component_id: 8052295
       }
     })
     .success(function(data, status) {
@@ -768,6 +798,111 @@ tourcmsApiService.redeemVoucher({
       console.log(status);
     });
 ```
+
+#### [Add booking component](http://www.tourcms.com/support/api/mp/booking_add_component.php)
+Add a Tour (with or without Options) to a booking, or add Options to an existing Tour that is already on a booking.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service.
+
+```js
+tourcmsApiService.addBookingComponent({
+      channelId: 3930,
+      booking: {
+        booking_id: 12920,
+        component: {
+          component_key: '500II4/cOf21qGqulu6E5lU9rjOa5qvmibXKFMh3otSkgCsUAbrdap/7CTxDKl+p'
+        }
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.log(data);
+    })
+    .error(function(data, status) {
+      console.log(data || "Request failed");
+      console.log(status);
+    });
+```
+
+#### [Remove booking component](http://www.tourcms.com/support/api/mp/booking_remove_component.php)
+Remove a tour from a regular (i.e. non-temporary, non-archived) booking.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service.
+
+```js
+tourcmsApiService.removeBookingComponent({
+      channelId: 3930,
+      booking: {
+        booking_id: 12920,
+        component: {
+            component_id: 8285991
+        }
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.info(data);
+    })
+    .error(function(data, status) {
+      console.info(data || "Request failed");
+      console.info(status);
+    });
+```
+
+#### [Update booking component](http://www.tourcms.com/support/api/mp/booking_update_component.php)
+Change some details of a particular booking component (tour/option/fee).
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service.
+
+```js
+tourcmsApiService.updateBookingComponent({
+      channelId: 3930,
+      booking: {
+        booking_id: 12920,
+        component: {
+            component_id: 8286001,
+            sale_quantity: 3
+        }
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.info(data);
+    })
+    .error(function(data, status) {
+      console.info(data || "Request failed");
+      console.info(status);
+    });
+```
+
+#### [Send booking email](http://www.tourcms.com/support/api/mp/booking_send_email.php)
+Send one of the pre-configured email templates.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service.
+
+```js
+tourcmsApiService.sendBookingEmail({
+      booking: {
+        booking_id: 12920,
+        email_type: 1
+      }
+    })
+    .success(function(data, status) {
+      console.log('Success');
+      console.info(data);
+    })
+    .error(function(data, status) {
+      console.info(data || "Request failed");
+      console.info(status);
+    });
+```
+
+
+
 ### Payment APIs
 ### [Create Payment](http://www.tourcms.com/support/api/mp/payment_create.php)
 Store details of a payment in TourCMS.
