@@ -768,6 +768,28 @@
                                     paymentData.appendChild(gatewayModeData);
                                 }
 
+                                // Payment Reference
+                                if(typeof a.payment_reference !== 'undefined') {
+                                  // create the <payment_reference> node
+                                    var gatewayPaymentRefData = doc.createElement("payment_reference"), text;
+                                    var gatewayPaymentRefText = doc.createTextNode(a.payment_reference);
+                                    gatewayPaymentRefData.appendChild(gatewayPaymentRefText);
+
+                                    // append to document
+                                    paymentData.appendChild(gatewayPaymentRefData);
+                                }
+
+                                // Payment Transaction Reference
+                                if(typeof a.payment_transaction_reference !== 'undefined') {
+                                  // create the <payment_transaction_reference> node
+                                    var gatewayPaymentTransactionRefData = doc.createElement("payment_transaction_reference"), text;
+                                    var gatewayPaymentTransactionRefText = doc.createTextNode(a.payment_transaction_reference);
+                                    gatewayPaymentTransactionRefData.appendChild(gatewayPaymentTransactionRefText);
+
+                                    // append to document
+                                    paymentData.appendChild(gatewayPaymentTransactionRefData);
+                                }
+
 
                                 doc.appendChild(paymentData);
                                 a.postData = paymentData;
