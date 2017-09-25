@@ -768,6 +768,17 @@
                                     paymentData.appendChild(gatewayModeData);
                                 }
 
+                                // Who pays
+                                if(typeof a.paymentBy !== 'undefined') {
+                                  // create the <paid_by> node
+                                    var paymentByData = doc.createElement("paid_by"), text;
+                                    var paymentByText = doc.createTextNode(a.paymentBy);
+                                    paymentByData.appendChild(paymentByText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentByData);
+                                }
+
 
                                 doc.appendChild(paymentData);
                                 a.postData = paymentData;
@@ -869,6 +880,17 @@
 
                                       // append to document
                                       paymentData.appendChild(gatewayModeData);
+                                  }
+
+                                  // Who pays
+                                  if(typeof a.paymentBy !== 'undefined') {
+                                    // create the <payment_by> node
+                                      var paymentByData = doc.createElement("paid_by"), text;
+                                      var paymentByText = doc.createTextNode(a.paymentBy);
+                                      paymentByData.appendChild(paymentByText);
+
+                                      // append to document
+                                      paymentData.appendChild(paymentByData);
                                   }
 
 
