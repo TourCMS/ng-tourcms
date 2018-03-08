@@ -871,6 +871,80 @@
                                       paymentData.appendChild(gatewayModeData);
                                   }
 
+                                  //Cardholder details:
+                                  if(typeof a.cardholderCustomer !== 'undefined'){
+                                    var paymentCardholderDetailsData = doc.createElement("cardholder_customer"), text;
+                                    //var paymentCasrdholderDetailsText = doc.createTextNode(a.cardholderCustomer);
+
+                                    if(typeof a.cardholderCustomer.firstname !== 'undefined'){
+                                      var cardholderFirstnameData = doc.createElement("firstname"), text;
+                                      var cardholderFirstnameText = doc.createTextNode(a.cardholderCustomer.firstname);
+                                      cardholderFirstnameData.appendChild(cardholderFirstnameText);
+                                      paymentCardholderDetailsData.appendChild(cardholderFirstnameData);
+                                    }
+                                    
+                                    if (typeof a.cardholderCustomer.surname !== 'undefined') {
+                                      var cardholderSurnameData = doc.createElement("surname"), text;
+                                      var cardholderSurnameText = doc.createTextNode(a.cardholderCustomer.surname);
+                                      cardholderSurnameData.appendChild(cardholderSurnameText);
+                                      paymentCardholderDetailsData.appendChild(cardholderSurnameData);
+                                    }
+                                    
+                                    if (typeof a.cardholderCustomer.email !== 'undefined') {
+                                      var cardholderEmailData = doc.createElement("email"), text;
+                                      var cardholderEmailText = doc.createTextNode(a.cardholderCustomer.email);
+                                      cardholderEmailData.appendChild(cardholderEmailText);
+                                      paymentCardholderDetailsData.appendChild(cardholderEmailData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.address !== 'undefined') {
+                                      var cardholderAddressData = doc.createElement("address"), text;
+                                      var cardholderAddressText = doc.createTextNode(a.cardholderCustomer.address);
+                                      cardholderAddressData.appendChild(cardholderAddressText);
+                                      paymentCardholderDetailsData.appendChild(cardholderAddressData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.city !== 'undefined') {
+                                      var cardholderCityData = doc.createElement("city"), text;
+                                      var cardholderCityText = doc.createTextNode(a.cardholderCustomer.city);
+                                      cardholderCityData.appendChild(cardholderCityText);
+                                      paymentCardholderDetailsData.appendChild(cardholderCityData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.county !== 'undefined') {
+                                      var cardholderCountyData = doc.createElement("county"), text;
+                                      var cardholderCountyText = doc.createTextNode(a.cardholderCustomer.county);
+                                      cardholderCountyData.appendChild(cardholderCountyText);
+                                      paymentCardholderDetailsData.appendChild(cardholderCountyData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.country !== 'undefined') {
+                                      var cardholderCountryData = doc.createElement("country"), text;
+                                      var cardholderCountryText = doc.createTextNode(a.cardholderCustomer.country);
+                                      cardholderCountryData.appendChild(cardholderCountryText);
+                                      paymentCardholderDetailsData.appendChild(cardholderCountryData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.postcode !== 'undefined') {
+                                      var cardholderPostcodeData = doc.createElement("postcode"), text;
+                                      var cardholderPostcodeText = doc.createTextNode(a.cardholderCustomer.postcode);
+                                      cardholderPostcodeData.appendChild(cardholderPostcodeText);
+                                      paymentCardholderDetailsData.appendChild(cardholderPostcodeData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.tel_home !== 'undefined') {
+                                      var cardholderTelData = doc.createElement("tel_home"), text;
+                                      var cardholderTelText = doc.createTextNode(a.cardholderCustomer.tel_home);
+                                      cardholderTelData.appendChild(cardholderTelText);
+                                      paymentCardholderDetailsData.appendChild(cardholderTelData);
+                                    }
+
+                                    doc.appendChild(paymentCardholderDetailsData);
+            
+                                    // append to document
+                                    paymentData.appendChild(paymentCardholderDetailsData);
+                                  }
+
 
                                 doc.appendChild(paymentData);
                                 a.postData = paymentData;
