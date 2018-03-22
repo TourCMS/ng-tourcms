@@ -768,6 +768,28 @@
                                     paymentData.appendChild(gatewayModeData);
                                 }
 
+                                // Who pays
+                                if(typeof a.paymentBy !== 'undefined') {
+                                  // create the <paid_by> node
+                                    var paymentByData = doc.createElement("paid_by"), text;
+                                    var paymentByText = doc.createTextNode(a.paymentBy);
+                                    paymentByData.appendChild(paymentByText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentByData);
+                                }
+
+                                // Who pays id
+                                if(typeof a.paymentById !== 'undefined') {
+                                  // create the <payment_by> node
+                                    var paymentByIdData = doc.createElement("paid_by_id"), text;
+                                    var paymentByIdText = doc.createTextNode(a.paymentById);
+                                    paymentByIdData.appendChild(paymentByIdText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentByIdData);
+                                }
+
 
                                 doc.appendChild(paymentData);
                                 a.postData = paymentData;
@@ -871,6 +893,102 @@
                                       paymentData.appendChild(gatewayModeData);
                                   }
 
+                                  // Who pays
+                                  if(typeof a.paymentBy !== 'undefined') {
+                                    // create the <payment_by> node
+                                      var paymentByData = doc.createElement("paid_by"), text;
+                                      var paymentByText = doc.createTextNode(a.paymentBy);
+                                      paymentByData.appendChild(paymentByText);
+
+                                      // append to document
+                                      paymentData.appendChild(paymentByData);
+                                  }
+
+                                  // Who pays id
+                                  if(typeof a.paymentById !== 'undefined') {
+                                    // create the <payment_by> node
+                                      var paymentByIdData = doc.createElement("paid_by_id"), text;
+                                      var paymentByIdText = doc.createTextNode(a.paymentById);
+                                      paymentByIdData.appendChild(paymentByIdText);
+
+                                      // append to document
+                                      paymentData.appendChild(paymentByIdData);
+                                  }
+				
+				  //Cardholder details:
+                                  if(typeof a.cardholderCustomer !== 'undefined'){
+                                    var paymentCardholderDetailsData = doc.createElement("cardholder_customer"), text;
+                                    //var paymentCasrdholderDetailsText = doc.createTextNode(a.cardholderCustomer);
+
+                                    if(typeof a.cardholderCustomer.firstname !== 'undefined'){
+                                      var cardholderFirstnameData = doc.createElement("firstname"), text;
+                                      var cardholderFirstnameText = doc.createTextNode(a.cardholderCustomer.firstname);
+                                      cardholderFirstnameData.appendChild(cardholderFirstnameText);
+                                      paymentCardholderDetailsData.appendChild(cardholderFirstnameData);
+                                    }
+                                    
+                                    if (typeof a.cardholderCustomer.surname !== 'undefined') {
+                                      var cardholderSurnameData = doc.createElement("surname"), text;
+                                      var cardholderSurnameText = doc.createTextNode(a.cardholderCustomer.surname);
+                                      cardholderSurnameData.appendChild(cardholderSurnameText);
+                                      paymentCardholderDetailsData.appendChild(cardholderSurnameData);
+                                    }
+                                    
+                                    if (typeof a.cardholderCustomer.email !== 'undefined') {
+                                      var cardholderEmailData = doc.createElement("email"), text;
+                                      var cardholderEmailText = doc.createTextNode(a.cardholderCustomer.email);
+                                      cardholderEmailData.appendChild(cardholderEmailText);
+                                      paymentCardholderDetailsData.appendChild(cardholderEmailData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.address !== 'undefined') {
+                                      var cardholderAddressData = doc.createElement("address"), text;
+                                      var cardholderAddressText = doc.createTextNode(a.cardholderCustomer.address);
+                                      cardholderAddressData.appendChild(cardholderAddressText);
+                                      paymentCardholderDetailsData.appendChild(cardholderAddressData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.city !== 'undefined') {
+                                      var cardholderCityData = doc.createElement("city"), text;
+                                      var cardholderCityText = doc.createTextNode(a.cardholderCustomer.city);
+                                      cardholderCityData.appendChild(cardholderCityText);
+                                      paymentCardholderDetailsData.appendChild(cardholderCityData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.county !== 'undefined') {
+                                      var cardholderCountyData = doc.createElement("county"), text;
+                                      var cardholderCountyText = doc.createTextNode(a.cardholderCustomer.county);
+                                      cardholderCountyData.appendChild(cardholderCountyText);
+                                      paymentCardholderDetailsData.appendChild(cardholderCountyData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.country !== 'undefined') {
+                                      var cardholderCountryData = doc.createElement("country"), text;
+                                      var cardholderCountryText = doc.createTextNode(a.cardholderCustomer.country);
+                                      cardholderCountryData.appendChild(cardholderCountryText);
+                                      paymentCardholderDetailsData.appendChild(cardholderCountryData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.postcode !== 'undefined') {
+                                      var cardholderPostcodeData = doc.createElement("postcode"), text;
+                                      var cardholderPostcodeText = doc.createTextNode(a.cardholderCustomer.postcode);
+                                      cardholderPostcodeData.appendChild(cardholderPostcodeText);
+                                      paymentCardholderDetailsData.appendChild(cardholderPostcodeData);
+                                    }
+
+                                    if(typeof a.cardholderCustomer.tel_home !== 'undefined') {
+                                      var cardholderTelData = doc.createElement("tel_home"), text;
+                                      var cardholderTelText = doc.createTextNode(a.cardholderCustomer.tel_home);
+                                      cardholderTelData.appendChild(cardholderTelText);
+                                      paymentCardholderDetailsData.appendChild(cardholderTelData);
+                                    }
+
+                                    doc.appendChild(paymentCardholderDetailsData);
+            
+                                    // append to document
+                                    paymentData.appendChild(paymentCardholderDetailsData);
+                                  }
+
 
                                 doc.appendChild(paymentData);
                                 a.postData = paymentData;
@@ -878,6 +996,133 @@
                                 a.path = '/c/booking/payment/spreedly/new.xml';
 
                                 a.verb = 'POST';
+
+                                return makeRequest(a);
+
+        },
+        payworksCreatePayment: function(a) {
+
+                              // Channel ID
+                                // If undefined, use object level channelId
+                                if(typeof a.channelId === "undefined")
+                                  a.channelId = channelId;
+
+                                // creates a Document object with root "<booking>"
+                                var doc = document.implementation.createDocument(null, null, null);
+                                var paymentData = doc.createElement("payment"), text;
+
+                                // create the <booking_id> node
+                                  var bookingIdData = doc.createElement("booking_id"), text;
+                                  var bookingIdText = doc.createTextNode(a.bookingId);
+                                  bookingIdData.appendChild(bookingIdText);
+
+                                  // append to document
+                                  paymentData.appendChild(bookingIdData);
+
+                                // Create the <payment_amount> node
+                                  var paymentValueData = doc.createElement("payment_value"), text;
+                                  var paymentValueText = doc.createTextNode(a.paymentValue);
+                                  paymentValueData.appendChild(paymentValueText);
+
+                                  // append to document
+                                  paymentData.appendChild(paymentValueData);
+
+                                // Payment currency
+                                if(typeof a.currency !== 'undefined') {
+                                  // create the <payment_currency> node
+                                    var paymentCurrencyData = doc.createElement("payment_currency"), text;
+                                    var paymentCurrencyText = doc.createTextNode(a.currency);
+                                    paymentCurrencyData.appendChild(paymentCurrencyText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentCurrencyData);
+                                }
+
+                                // Payment type
+                                if(typeof a.paymentType !== 'undefined') {
+                                  // create the <payment_type> node
+                                    var paymentTypeData = doc.createElement("payment_type"), text;
+                                    var paymentTypeText = doc.createTextNode(a.paymentType);
+                                    paymentTypeData.appendChild(paymentTypeText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentTypeData);
+                                }
+
+                                // Payment note
+                                if(typeof a.paymentNote !== 'undefined') {
+                                  // create the <payment_type> node
+                                    var paymentNoteData = doc.createElement("payment_note"), text;
+                                    var paymentNoteText = doc.createTextNode(a.paymentNote);
+                                    paymentNoteData.appendChild(paymentNoteText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentNoteData);
+                                }
+
+
+                                // Credit card fee type
+                                if(typeof a.creditcardFeeType !== 'undefined') {
+                                  // create the <creditcard_fee_type> node
+                                    var creditcardFeeTypeData = doc.createElement("creditcard_fee_type"), text;
+                                    var creditcardFeeTypeText = doc.createTextNode(a.creditcardFeeType);
+                                    creditcardFeeTypeData.appendChild(creditcardFeeTypeText);
+
+                                    // append to document
+                                    paymentData.appendChild(creditcardFeeTypeData);
+                                }
+
+                                // Gateway Mode
+                                if(typeof a.gatewayMode !== 'undefined') {
+                                  // create the <payment_currency> node
+                                    var gatewayModeData = doc.createElement("gateway_mode"), text;
+                                    var gatewayModeText = doc.createTextNode(a.gatewayMode);
+                                    gatewayModeData.appendChild(gatewayModeText);
+
+                                    // append to document
+                                    paymentData.appendChild(gatewayModeData);
+                                }
+
+                                // Payment Reference
+                                if(typeof a.paymentReference !== 'undefined') {
+                                  // create the <payment_reference> node
+                                    var gatewayPaymentRefData = doc.createElement("payworks_payment_reference"), text;
+                                    var gatewayPaymentRefText = doc.createTextNode(a.paymentReference);
+                                    gatewayPaymentRefData.appendChild(gatewayPaymentRefText);
+
+                                    // append to document
+                                    paymentData.appendChild(gatewayPaymentRefData);
+                                }
+
+                                // Who pays
+                                if(typeof a.paymentBy !== 'undefined') {
+                                  // create the <payment_by> node
+                                    var paymentByData = doc.createElement("paid_by"), text;
+                                    var paymentByText = doc.createTextNode(a.paymentBy);
+                                    paymentByData.appendChild(paymentByText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentByData);
+                                }
+
+                                // Who pays id
+                                if(typeof a.paymentById !== 'undefined') {
+                                  // create the <payment_by> node
+                                    var paymentByIdData = doc.createElement("paid_by_id"), text;
+                                    var paymentByIdText = doc.createTextNode(a.paymentById);
+                                    paymentByIdData.appendChild(paymentByIdText);
+
+                                    // append to document
+                                    paymentData.appendChild(paymentByIdData);
+                                }
+
+                                doc.appendChild(paymentData);
+                                a.postData = paymentData;
+
+                                a.path = '/c/booking/payment/payworks/new.xml';
+
+                                a.verb = 'POST';
+
 
                                 return makeRequest(a);
 
