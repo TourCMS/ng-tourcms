@@ -1127,6 +1127,26 @@
                                 return makeRequest(a);
 
         },
+        paymentsList: function(a) {
+
+                    if(typeof a === 'undefined')
+                      a = {};
+
+                    // Channel ID
+                    // If undefined, use object level channelId
+                    if(typeof a.channelId === "undefined")
+                      a.channelId = channelId;
+
+                    if(typeof a.qs === "undefined")
+                      a.qs = {};
+
+                    a.querystring = toQueryString(a.qs);
+
+                    a.path = '/c/booking/payment/list.xml?' + a.querystring;;
+
+                    return makeRequest(a);
+          
+        },
         addNoteToBooking: function(a) {
                                 // Channel ID
                                   // If undefined, use object level channelId
@@ -1450,6 +1470,22 @@
 
                     return makeRequest(a);
 
+        },
+        //Staff members
+        staffMembersList: function(a) {
+
+                    if(typeof a === 'undefined')
+                      a = {};
+
+                    // Channel ID
+                    // If undefined, use object level channelId
+                    if(typeof a.channelId === "undefined")
+                      a.channelId = channelId;
+                  
+                    a.path = '/c/staff/list.xml';
+
+                    return makeRequest(a);
+          
         },
         // Suppliers (Internal TourCMS)
         showSupplier: function(a) {

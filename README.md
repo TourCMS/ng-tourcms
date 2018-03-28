@@ -44,6 +44,8 @@ AngularJS service for accessing the [TourCMS](http://www.tourcms.com) [API](http
   * [Payment APIs](#payment-apis)
     * [Create Payment](#create-payment)
     * [Spreedly Create Payment](#spreedly-create-payment)
+    * [List Payments](#list-payments)
+    * [List Staff Members](#list-staff-members)
   * [Customer / Enquiry APIs](#customer--enquiry-apis)
     * [Show Customer](#show-customer)
   * [Travel Agents](#travel-agents)
@@ -957,6 +959,32 @@ If a Channel ID is not provided, the function will use the Channel ID
      });
  ```
 
+### [List Payments](http://www.tourcms.com/support/api/mp/payments_list.php)
+List of payments made during a specifif period and/or from staff member. Can be called by operators or travel agents.
+
+If a Channel ID is not provided, the function will use the Channel ID
+ configured on the service.
+
+ ```js
+ var qs = {
+      from_date: "2018-03-23",
+      to_date: "2018-03-26"
+    };
+
+ tourcmsApiService.paymentsList({
+        channelId: 3930,
+        qs
+     })
+     .success(function(data, status) {
+       console.log('Success');
+       console.log(data);
+     })
+     .error(function(data, status) {
+       console.log(data || "Request failed");
+       console.log(status);
+     });
+ ```
+
 ### Customer / Enquiry APIs
 #### [Show Customer](http://www.tourcms.com/support/api/mp/customer_show.php)
 Get details on a specific customer.
@@ -993,6 +1021,25 @@ tourcmsApiService.searchAgents({
   }
 })
 .success(function(data, status) {
+  console.log('Success');
+  console.log(data);
+})
+.error(function(data, status) {
+  console.log(data || "Request failed");
+  console.log(status);
+});
+```
+
+### List Staff Members
+#### [List Staff Members](http://www.tourcms.com/support/api/mp/#)
+Get a list of staff members. Only available for operators, no travel agents.
+
+If a Channel ID is not provided, the function will use the Channel ID
+configured on the service.
+```js
+tourcmsApiService.staffMembersList({
+  channelId: 3930
+}).success(function(data, status) {
   console.log('Success');
   console.log(data);
 })
